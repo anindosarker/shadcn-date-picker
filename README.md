@@ -16,6 +16,12 @@ Radix UI (shadcn style `radix-nova`):
 pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-radix
 ```
 
+React Aria (shadcn style `aria-nova`):
+
+```bash
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-aria
+```
+
 The files land in `components/date-picker/`. The shadcn parts it uses (button, calendar, popover and others) come from your own style. The CLI rewrites the picker's imports to the aliases in your `components.json`, so a project with `~/` or a `src/` layout works as is.
 
 Three places in the picker carry the classes of shadcn's nova style, whatever style your project uses: the dialog's close button (`absolute top-2 right-2`), the gap of the range fields in the phone dialog (`gap-2`) and the right corners of the trigger's button group (`rounded-r-lg`). On another style, change them in your copy if you want that style's values.
@@ -48,6 +54,15 @@ Radix UI:
 
 - Tab moves round the controls of an open popover and does not close it. Escape or a press outside closes it.
 - On a touch screen a popover and the phone dialog open with focus on their first control. The clock's popover opens as on Base UI.
+
+React Aria:
+
+- Tab stays inside an open popover. Two hidden dismiss buttons for screen readers sit before and after its content.
+- While a popover is open the page behind it does not scroll or take a press; a press outside only closes the popover.
+- A popover opens with focus on the popover itself; its first control is one Tab away.
+- The phone dialog opens with focus on the dialog itself; its close button is one Tab away.
+- A range picker's popover is announced with the text of its trigger button, not with the picker's label.
+- In a right-to-left page the popover of a box is shifted 8 px to the other side.
 
 ## License
 
