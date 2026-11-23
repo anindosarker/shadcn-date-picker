@@ -47,7 +47,7 @@ export function Example() {
 Radix UI:
 
 - Tab moves round the controls of an open popover and does not close it. Escape or a press outside closes it.
-- On a touch screen a popover opens with focus on its first control. The clock's popover opens as on Base UI.
+- On a touch screen a popover and the phone dialog open with focus on their first control. The clock's popover opens as on Base UI.
 
 ## License
 
