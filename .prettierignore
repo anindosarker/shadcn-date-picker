@@ -1,0 +1,4 @@
+# Written by pnpm and the shadcn CLI, never edited.
+pnpm-lock.yaml
+registry/*/components/ui
+registry/*/hooks

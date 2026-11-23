@@ -1,0 +1,9 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.baseui.json" },
+    { "path": "./tsconfig.radix.json" },
+    { "path": "./tsconfig.aria.json" },
+    { "path": "./tsconfig.stories.json" }
+  ]
+}
