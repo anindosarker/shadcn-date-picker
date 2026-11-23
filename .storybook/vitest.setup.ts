@@ -1,4 +1,5 @@
 import { setProjectAnnotations } from "@storybook/react-vite"
+import { configure } from "storybook/test"
 import { afterEach, beforeAll } from "vitest"
 import { commands, page, userEvent } from "vitest/browser"
 import * as projectAnnotations from "./preview"
@@ -6,6 +7,9 @@ import * as projectAnnotations from "./preview"
 const project = setProjectAnnotations([projectAnnotations])
 
 beforeAll(project.beforeAll)
+
+// CI runs about 3.5 times slower than a laptop; plays wait on conditions.
+configure({ asyncUtilTimeout: 5000 })
 
 declare module "vitest/browser" {
   interface BrowserCommands {

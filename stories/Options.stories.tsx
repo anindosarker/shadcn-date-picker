@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react-vite"
-import { expect, spyOn, userEvent, within } from "storybook/test"
+import { expect, spyOn, userEvent, waitFor, within } from "storybook/test"
 import { DatePicker } from "@/components/date-picker/date-picker"
 import type { RangeValue } from "@/components/date-picker/types"
 import { Controlled } from "./support/controlled"
@@ -224,6 +224,28 @@ export const DateTimeLimits: Story = {
       await userEvent.click(day(panel, "November 25th, 2026"))
       await expectValue(canvasElement, "2026-11-25T09:10", 2)
     })
+    await step(
+      "DT10 min's time limits the clock only on min's day",
+      async () => {
+        const panel = within(
+          screen.getByRole("dialog", { name: "Select date and time" })
+        )
+        await userEvent.click(day(panel, "November 5th, 2026"))
+        await expectValue(canvasElement, "2026-11-05T09:10", 3)
+        const opener = panel.getByRole("button", { name: "Select time" })
+        let clock = await openPopup(opener, "Select time")
+        const early = clock.queryByRole("group", { name: "AM or PM" })
+          ? "8"
+          : "08"
+        await expect(option(clock, "Hour", early)).toBeDisabled()
+        await userEvent.keyboard("{Escape}")
+        await expectClosed("Select time")
+        await userEvent.click(day(panel, "November 10th, 2026"))
+        await expectValue(canvasElement, "2026-11-10T09:10", 4)
+        clock = await openPopup(opener, "Select time")
+        await expect(option(clock, "Hour", early)).toBeEnabled()
+      }
+    )
   },
 }
 
@@ -246,6 +268,50 @@ export const Step: Story = {
       await expect(minutes).toEqual(["00", "15", "30", "45"])
       await expect(clock.queryByRole("group", { name: "Second" })).toBeNull()
     })
+  },
+}
+
+export const StepTyped: Story = {
+  render: () => (
+    <Controlled initial="10:30">
+      {(props) => <DatePicker type="time" step={900} {...props} />}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    if (!browserTools()) {
+      return
+    }
+    await step("B4, N4 a typed time off the step is kept", async () => {
+      await typeKeys(canvas.getByLabelText("Time"), "1007A")
+      await expectValue(canvasElement, "10:07")
+    })
+  },
+}
+
+export const OpenState: Story = {
+  render: () => (
+    <Controlled initial="10:30">
+      {(props) => (
+        <DatePicker
+          type="time"
+          popoverProps={{ defaultOpen: true }}
+          {...props}
+        />
+      )}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    await step(
+      "U8, T5 the open state passes through popoverProps",
+      async () => {
+        const clock = await screen.findByRole("dialog", { name: "Select time" })
+        await waitFor(() => expect(clock).toBeVisible())
+        await userEvent.keyboard("{Escape}")
+        await expectClosed("Select time")
+        await expectValue(canvasElement, "10:30", 0)
+      }
+    )
   },
 }
 

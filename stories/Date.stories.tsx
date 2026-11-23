@@ -65,11 +65,12 @@ export const Single: Story = {
       }
     })
 
-    await step("D4 a click on a day closes the popup", async () => {
+    await step("D4, B7 a click on a day closes the popup", async () => {
       const panel = within(screen.getByRole("dialog", { name: "Select date" }))
       await userEvent.click(day(panel, "November 10th, 2026"))
       await expectClosed("Select date")
       await expectValue(canvasElement, "2026-11-10", 1)
+      await expect(canvas.getByLabelText("Date")).toHaveValue("2026-11-10")
     })
 
     await step("D5, G1 a click on the selected day calls nothing", async () => {
@@ -184,18 +185,31 @@ export const Range: Story = {
       await expect(months.map((select) => select.value)).toEqual(["10", "11"])
     })
 
+    await step(
+      "R10 only To set: the clicked day and To's day in order",
+      async () => {
+        const panel = within(screen.getByRole("dialog", { name: "Date range" }))
+        await userEvent.click(panel.getByRole("button", { name: "Clear From" }))
+        await expectValue(canvasElement, ["", "2026-11-20"], 3)
+        await userEvent.click(day(panel, "November 25th, 2026"))
+        await expectValue(canvasElement, ["2026-11-20", "2026-11-25"], 4)
+      }
+    )
+
     await step("R17 the calendar not moved gives way", async () => {
       const panel = within(screen.getByRole("dialog", { name: "Date range" }))
       const [next] = panel.getAllByRole("button", {
         name: "Go to the Next Month",
       })
+      const months = () =>
+        panel
+          .getAllByRole<HTMLSelectElement>("combobox", {
+            name: "Choose the Month",
+          })
+          .map((select) => select.value)
+      await expect(months()).toEqual(["9", "10"])
       await userEvent.click(next)
-      const months = panel.getAllByRole<HTMLSelectElement>("combobox", {
-        name: "Choose the Month",
-      })
-      await waitFor(() =>
-        expect(months.map((select) => select.value)).toEqual(["11", "0"])
-      )
+      await waitFor(() => expect(months()).toEqual(["10", "11"]))
       await userEvent.keyboard("{Escape}")
       await expectClosed("Date range")
     })
@@ -204,7 +218,7 @@ export const Range: Story = {
       await userEvent.click(
         canvas.getByRole("button", { name: "Clear Date range" })
       )
-      await expectValue(canvasElement, ["", ""], 3)
+      await expectValue(canvasElement, ["", ""], 5)
       const empty = canvas.getByRole("button", { name: "Pick a date" })
       await expect(empty).toHaveFocus()
     })
@@ -215,9 +229,9 @@ export const Range: Story = {
         "Date range"
       )
       await userEvent.click(todayButton(panel))
-      await expectValue(canvasElement, [today(), today()], 4)
+      await expectValue(canvasElement, [today(), today()], 6)
       await userEvent.click(todayButton(panel))
-      await expectValue(canvasElement, ["", ""], 5)
+      await expectValue(canvasElement, ["", ""], 7)
     })
 
     if (!browserTools()) {
