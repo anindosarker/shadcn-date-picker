@@ -8,8 +8,12 @@ import {
   day,
   expectClosed,
   expectGone,
+  expectRangeClosed,
   expectValue,
   openPopup,
+  openRangePopup,
+  rangeDialog,
+  rangePopup,
   screen,
   typeKeys,
 } from "./support/play"
@@ -101,7 +105,7 @@ export const Range: Story = {
     })
 
     await step("WR1 popup: per end a week box and a calendar", async () => {
-      const panel = await openPopup(trigger, "Week range")
+      const panel = await openRangePopup(trigger)
       await expect(panel.getByLabelText("From")).toHaveValue("2026-W44")
       await expect(panel.getByLabelText("To")).toHaveValue("2026-W47")
       await expect(
@@ -117,35 +121,32 @@ export const Range: Story = {
     await step(
       "PR4, PR7 both ends set: a click starts over, popup open",
       async () => {
-        const panel = within(screen.getByRole("dialog", { name: "Week range" }))
+        const panel = rangePopup()
         await userEvent.click(day(panel, "October 14th, 2026"))
         await expectValue(canvasElement, ["2026-W42", ""], 1)
-        await expect(
-          screen.getByRole("dialog", { name: "Week range" })
-        ).toBeVisible()
+        await expect(rangeDialog()).toBeVisible()
       }
     )
 
     await step("PR5 only From set: the two in order", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Week range" }))
+      const panel = rangePopup()
       await userEvent.click(day(panel, "October 7th, 2026"))
       await expectValue(canvasElement, ["2026-W41", "2026-W42"], 2)
     })
 
     await step("PR6 only To set: the two in order", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Week range" }))
+      const panel = rangePopup()
       await userEvent.click(panel.getByRole("button", { name: "Clear From" }))
       await expectValue(canvasElement, ["", "2026-W42"], 3)
       await userEvent.keyboard("{Escape}")
-      await expectClosed("Week range")
+      await expectRangeClosed()
     })
 
     await step(
       "PR8 only To set, opening: To's view, From's before",
       async () => {
-        const panel = await openPopup(
-          canvas.getByRole("button", { name: /Week 42, 2026$/ }),
-          "Week range"
+        const panel = await openRangePopup(
+          canvas.getByRole("button", { name: /Week 42, 2026$/ })
         )
         const months = panel.getAllByRole<HTMLSelectElement>("combobox", {
           name: "Choose the Month",
@@ -155,11 +156,11 @@ export const Range: Story = {
     )
 
     await step("PR6 only To set: the two in order", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Week range" }))
+      const panel = rangePopup()
       await userEvent.click(day(panel, "October 21st, 2026"))
       await expectValue(canvasElement, ["2026-W42", "2026-W43"], 4)
       await userEvent.keyboard("{Escape}")
-      await expectClosed("Week range")
+      await expectRangeClosed()
     })
 
     await step("PR1 X empties both ends", async () => {

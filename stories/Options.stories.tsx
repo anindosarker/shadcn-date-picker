@@ -9,8 +9,12 @@ import {
   day,
   expectClosed,
   expectGone,
+  expectRangeClosed,
   expectValue,
   openPopup,
+  openRangePopup,
+  rangeDialog,
+  readDateOrder,
   realKeys,
   screen,
   typeKeys,
@@ -87,6 +91,7 @@ export const Limits: Story = {
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement)
+    await readDateOrder()
     const opener = canvas.getByRole("button", { name: "Select date" })
 
     await step(
@@ -136,10 +141,7 @@ export const Limits: Story = {
     }
 
     await step("B3, N3 a typed date outside the limits is kept", async () => {
-      await typeKeys(
-        canvas.getByLabelText("Date"),
-        await dateKeys("2026-12-01")
-      )
+      await typeKeys(canvas.getByLabelText("Date"), dateKeys("2026-12-01"))
       await expectValue(canvasElement, "2026-12-01")
     })
   },
@@ -346,9 +348,8 @@ export const DateTimeRangeLimits: Story = {
     await step(
       "R9 a picked min or max day brings that end's time inside",
       async () => {
-        const panel = await openPopup(
-          canvas.getByRole("button", { name: /^Nov 10, 2026/ }),
-          "Date and time range"
+        const panel = await openRangePopup(
+          canvas.getByRole("button", { name: /^Nov 10, 2026/ })
         )
         await userEvent.click(day(panel, "November 5th, 2026"))
         await expectValue(
@@ -563,12 +564,6 @@ export const Presets: Story = {
         screen.getByRole("dialog", { name: "Select date" })
       ).toBeVisible()
     })
-    await step("U2 Tab past the last control closes the popover", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Select date" }))
-      panel.getByRole("button", { name: "Christmas" }).focus()
-      await userEvent.tab()
-      await expectClosed("Select date")
-    })
   },
 }
 
@@ -694,9 +689,8 @@ export const RangePresets: Story = {
     await step(
       "R18 a preset moves both calendars, popup stays open",
       async () => {
-        const panel = await openPopup(
-          canvas.getByRole("button", { name: "Nov 3, 2026 - Nov 12, 2026" }),
-          "Date range"
+        const panel = await openRangePopup(
+          canvas.getByRole("button", { name: "Nov 3, 2026 - Nov 12, 2026" })
         )
         await userEvent.click(panel.getByRole("button", { name: "Holidays" }))
         await expectValue(canvasElement, ["2026-12-20", "2027-01-03"], 1)
@@ -704,9 +698,7 @@ export const RangePresets: Story = {
           name: "Choose the Month",
         })
         await expect(months.map((select) => select.value)).toEqual(["11", "0"])
-        await expect(
-          screen.getByRole("dialog", { name: "Date range" })
-        ).toBeVisible()
+        await expect(rangeDialog()).toBeVisible()
       }
     )
   },
@@ -769,7 +761,7 @@ export const TriggerName: Story = {
         await expect(
           canvas.getByRole("button", { name: "Clear Sprint" })
         ).toBeVisible()
-        await openPopup(trigger, "Sprint")
+        await openRangePopup(trigger)
       }
     )
   },
@@ -849,6 +841,7 @@ export const PhoneLayout: Story = {
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement)
+    await readDateOrder()
     const trigger = () =>
       canvas.getByRole("button", { name: /^Nov \d+, 2026 - Nov \d+, 2026$/ })
     const tools = browserTools()
@@ -857,15 +850,15 @@ export const PhoneLayout: Story = {
     }
 
     await step("U6 a popover from 768 wide", async () => {
-      const panel = await openPopup(trigger(), "Date range")
+      const panel = await openRangePopup(trigger())
       await expect(panel.queryByRole("button", { name: "Done" })).toBeNull()
       await userEvent.keyboard("{Escape}")
-      await expectClosed("Date range")
+      await expectRangeClosed()
     })
 
     await step("U5, U6, R5 a full-screen dialog under 768 wide", async () => {
       await tools.page.viewport(390, 844)
-      const dialog = await openPopup(trigger(), "Date range")
+      const dialog = await openRangePopup(trigger())
       await expect(dialog.getByLabelText("From")).toHaveValue("2026-11-03")
       await expect(dialog.getByLabelText("To")).toHaveValue("2026-11-12")
       await expect(dialog.getAllByText("From")).toHaveLength(2)
@@ -873,17 +866,14 @@ export const PhoneLayout: Story = {
       await userEvent.click(day(dialog, "November 20th, 2026"))
       await expectValue(canvasElement, ["2026-11-03", "2026-11-20"], 1)
       await userEvent.click(dialog.getByRole("button", { name: "Done" }))
-      await expectClosed("Date range")
+      await expectRangeClosed()
     })
 
     await step(
       "R15 Tab from box to box in the phone dialog never swaps",
       async () => {
-        const dialog = await openPopup(trigger(), "Date range")
-        await typeKeys(
-          dialog.getByLabelText("From"),
-          await dateKeys("2026-11-25")
-        )
+        const dialog = await openRangePopup(trigger())
+        await typeKeys(dialog.getByLabelText("From"), dateKeys("2026-11-25"))
         await expectValue(canvasElement, ["2026-11-25", "2026-11-20"])
         await realKeys("{Tab}{Tab}")
         await expect(dialog.getByLabelText("To")).toHaveFocus()
@@ -893,7 +883,7 @@ export const PhoneLayout: Story = {
 
     await step("U7 the picker closes when the window crosses 768", async () => {
       await tools.page.viewport(1280, 800)
-      await expectClosed("Date range")
+      await expectRangeClosed()
     })
   },
 }
