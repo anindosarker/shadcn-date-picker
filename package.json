@@ -7,7 +7,7 @@
   "repository": "github:anindosarker/shadcn-date-picker",
   "type": "module",
   "scripts": {
-    "lint": "eslint . && prettier --check .",
+    "lint": "eslint . && prettier --check . \"!pnpm-lock.yaml\" \"!registry/*/components/ui\" \"!registry/*/hooks\"",
     "typecheck": "tsc -p tsconfig.baseui.json && tsc -p tsconfig.radix.json && tsc -p tsconfig.aria.json",
     "registry:build": "node tools/registry-build.mjs",
     "registry:check": "node tools/registry-build.mjs --check",
