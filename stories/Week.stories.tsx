@@ -136,6 +136,26 @@ export const Range: Story = {
       const panel = within(screen.getByRole("dialog", { name: "Week range" }))
       await userEvent.click(panel.getByRole("button", { name: "Clear From" }))
       await expectValue(canvasElement, ["", "2026-W42"], 3)
+      await userEvent.keyboard("{Escape}")
+      await expectClosed("Week range")
+    })
+
+    await step(
+      "PR8 only To set, opening: To's view, From's before",
+      async () => {
+        const panel = await openPopup(
+          canvas.getByRole("button", { name: /Week 42, 2026$/ }),
+          "Week range"
+        )
+        const months = panel.getAllByRole<HTMLSelectElement>("combobox", {
+          name: "Choose the Month",
+        })
+        await expect(months.map((select) => select.value)).toEqual(["8", "9"])
+      }
+    )
+
+    await step("PR6 only To set: the two in order", async () => {
+      const panel = within(screen.getByRole("dialog", { name: "Week range" }))
       await userEvent.click(day(panel, "October 21st, 2026"))
       await expectValue(canvasElement, ["2026-W42", "2026-W43"], 4)
       await userEvent.keyboard("{Escape}")

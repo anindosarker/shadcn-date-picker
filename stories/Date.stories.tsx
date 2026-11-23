@@ -258,5 +258,38 @@ export const Range: Story = {
       )
       await expectValue(canvasElement, ["2026-11-05", "2026-11-20"], calls + 1)
     })
+
+    await step(
+      "R13, F5 a far year typed: the calendar follows every digit",
+      async () => {
+        const panel = within(screen.getByRole("dialog", { name: "Date range" }))
+        const from = panel.getByLabelText("From")
+        await typeKeys(from, "{ArrowRight}{ArrowRight}")
+        for (const [digit, year] of [
+          ["1", "0001"],
+          ["4", "0014"],
+          ["4", "0144"],
+          ["3", "1443"],
+        ]) {
+          await realKeys(digit)
+          await expectValue(canvasElement, [`${year}-11-05`, "2026-11-20"])
+        }
+        await expect(from).toHaveFocus()
+        const [years] = panel.getAllByRole("combobox", {
+          name: "Choose the Year",
+        })
+        await expect(years).toHaveDisplayValue("1443")
+        await expect(within(years).getAllByRole("option")[0]).toHaveTextContent(
+          "1400"
+        )
+        const calls = callCount(canvasElement)
+        await userEvent.click(day(panel, "November 1st, 1443"))
+        await expectValue(
+          canvasElement,
+          ["1443-11-01", "2026-11-20"],
+          calls + 1
+        )
+      }
+    )
   },
 }

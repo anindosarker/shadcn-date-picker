@@ -28,6 +28,8 @@ const shift: RangeValue = ["22:00", "06:00"]
 
 const november: RangeValue = ["2026-11-03", "2026-11-12"]
 
+const noonRange: RangeValue = ["2026-11-10T12:00", "2026-11-20T12:00"]
+
 function option(
   scope: ReturnType<typeof within>,
   column: string,
@@ -143,6 +145,82 @@ export const Limits: Story = {
   },
 }
 
+function yearOptions(panel: ReturnType<typeof within>) {
+  return within(panel.getByRole("combobox", { name: "Choose the Year" }))
+    .getAllByRole("option")
+    .map((year) => year.textContent)
+}
+
+export const MaxBeforeList: Story = {
+  render: () => (
+    <Controlled initial="1850-03-10">
+      {(props) => <DatePicker type="date" max="1850-06-15" {...props} />}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    await step(
+      "D8 only a max before 1900: the list runs up to it",
+      async () => {
+        const panel = await openPopup(
+          canvas.getByRole("button", { name: "Select date" }),
+          "Select date"
+        )
+        const years = yearOptions(panel)
+        await expect(years[0]).toBe("1800")
+        await expect(years.at(-1)).toBe("1850")
+        await expect(years).toHaveLength(51)
+      }
+    )
+  },
+}
+
+export const MinAfterList: Story = {
+  render: () => (
+    <Controlled initial="2260-05-01">
+      {(props) => <DatePicker type="date" min="2250-03-10" {...props} />}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    await step("D8 only a min after 2100: the list runs from it", async () => {
+      const panel = await openPopup(
+        canvas.getByRole("button", { name: "Select date" }),
+        "Select date"
+      )
+      const years = yearOptions(panel)
+      await expect(years[0]).toBe("2250")
+      await expect(years.at(-1)).toBe("2300")
+      await expect(years).toHaveLength(51)
+    })
+  },
+}
+
+export const YearOutsideList: Story = {
+  render: () => (
+    <Controlled initial="2100">
+      {(props) => <DatePicker type="year" min="2000" {...props} />}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    await step(
+      "P13 a year past the list but inside the limits is not greyed",
+      async () => {
+        const panel = await openPopup(
+          canvas.getByRole("button", { name: "Select year" }),
+          "Select year"
+        )
+        const grid = within(panel.getByRole("group", { name: "2100 – 2109" }))
+        await expect(grid.getByRole("button", { name: "2105" })).toBeEnabled()
+        await userEvent.click(grid.getByRole("button", { name: "2105" }))
+        await expectClosed("Select year")
+        await expectValue(canvasElement, "2105", 1)
+      }
+    )
+  },
+}
+
 export const MonthLimits: Story = {
   render: () => (
     <Controlled initial="2026-06">
@@ -244,6 +322,46 @@ export const DateTimeLimits: Story = {
         await expectValue(canvasElement, "2026-11-10T09:10", 4)
         clock = await openPopup(opener, "Select time")
         await expect(option(clock, "Hour", early)).toBeEnabled()
+      }
+    )
+  },
+}
+
+export const DateTimeRangeLimits: Story = {
+  render: () => (
+    <Controlled initial={noonRange}>
+      {(props) => (
+        <DatePicker
+          type="datetime"
+          range
+          min="2026-11-05T09:10"
+          max="2026-11-25T17:00"
+          {...props}
+        />
+      )}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    await step(
+      "R9 a picked min or max day brings that end's time inside",
+      async () => {
+        const panel = await openPopup(
+          canvas.getByRole("button", { name: /^Nov 10, 2026/ }),
+          "Date and time range"
+        )
+        await userEvent.click(day(panel, "November 5th, 2026"))
+        await expectValue(
+          canvasElement,
+          ["2026-11-05T09:10", "2026-11-20T12:00"],
+          1
+        )
+        await userEvent.click(day(panel, "November 25th, 2026"))
+        await expectValue(
+          canvasElement,
+          ["2026-11-05T09:10", "2026-11-25T17:00"],
+          2
+        )
       }
     )
   },
@@ -450,6 +568,110 @@ export const Presets: Story = {
       panel.getByRole("button", { name: "Christmas" }).focus()
       await userEvent.tab()
       await expectClosed("Select date")
+    })
+  },
+}
+
+export const WeekPresets: Story = {
+  render: () => (
+    <Controlled initial="2026-W47">
+      {(props) => (
+        <DatePicker
+          type="week"
+          presets={[{ label: "First week of 2027", value: "2027-W01" }]}
+          {...props}
+        />
+      )}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    await step("P17 a week preset moves the calendar, popup open", async () => {
+      const panel = await openPopup(
+        canvas.getByRole("button", { name: "Select week" }),
+        "Select week"
+      )
+      await userEvent.click(
+        panel.getByRole("button", { name: "First week of 2027" })
+      )
+      await expectValue(canvasElement, "2027-W01", 1)
+      await expect(
+        panel.getByRole("combobox", { name: "Choose the Month" })
+      ).toHaveDisplayValue("Jan")
+      await expect(
+        panel.getByRole("combobox", { name: "Choose the Year" })
+      ).toHaveDisplayValue("2027")
+      await expect(
+        screen.getByRole("dialog", { name: "Select week" })
+      ).toBeVisible()
+    })
+  },
+}
+
+export const MonthPresets: Story = {
+  render: () => (
+    <Controlled initial="2026-11">
+      {(props) => (
+        <DatePicker
+          type="month"
+          presets={[{ label: "Spring 2027", value: "2027-03" }]}
+          {...props}
+        />
+      )}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    await step("P17 a month preset moves the grid, popup open", async () => {
+      const panel = await openPopup(
+        canvas.getByRole("button", { name: "Select month" }),
+        "Select month"
+      )
+      await userEvent.click(panel.getByRole("button", { name: "Spring 2027" }))
+      await expectValue(canvasElement, "2027-03", 1)
+      const grid = within(await panel.findByRole("group", { name: "2027" }))
+      await expect(grid.getByRole("button", { name: "Mar" })).toHaveAttribute(
+        "aria-pressed",
+        "true"
+      )
+      await expect(
+        screen.getByRole("dialog", { name: "Select month" })
+      ).toBeVisible()
+    })
+  },
+}
+
+export const YearPresets: Story = {
+  render: () => (
+    <Controlled initial="2026">
+      {(props) => (
+        <DatePicker
+          type="year"
+          presets={[{ label: "Mission year", value: "2042" }]}
+          {...props}
+        />
+      )}
+    </Controlled>
+  ),
+  play: async ({ canvasElement, step }) => {
+    const canvas = within(canvasElement)
+    await step("P17 a year preset moves the grid, popup open", async () => {
+      const panel = await openPopup(
+        canvas.getByRole("button", { name: "Select year" }),
+        "Select year"
+      )
+      await userEvent.click(panel.getByRole("button", { name: "Mission year" }))
+      await expectValue(canvasElement, "2042", 1)
+      const grid = within(
+        await panel.findByRole("group", { name: "2040 – 2049" })
+      )
+      await expect(grid.getByRole("button", { name: "2042" })).toHaveAttribute(
+        "aria-pressed",
+        "true"
+      )
+      await expect(
+        screen.getByRole("dialog", { name: "Select year" })
+      ).toBeVisible()
     })
   },
 }

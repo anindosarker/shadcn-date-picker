@@ -6,6 +6,7 @@ import { Controlled } from "./support/controlled"
 import {
   browserTools,
   callCount,
+  dateKeys,
   day,
   expectClosed,
   expectValue,
@@ -226,6 +227,56 @@ export const Range: Story = {
         await expect(
           panel.getByRole("button", { name: "Select time, From" })
         ).toBeDisabled()
+      }
+    )
+
+    if (!browserTools()) {
+      return
+    }
+
+    await step(
+      "R16 opening an end's clock orders a reversed pair, then edits that end",
+      async () => {
+        const panel = within(screen.getByRole("dialog", { name: popupName }))
+        await typeKeys(
+          panel.getByLabelText("From"),
+          `${await dateKeys("2026-11-20")}1000A`
+        )
+        await expectValue(canvasElement, ["2026-11-20T10:00", ""])
+        await typeKeys(
+          panel.getByLabelText("To"),
+          `${await dateKeys("2026-11-05")}0800A`
+        )
+        await expectValue(canvasElement, [
+          "2026-11-20T10:00",
+          "2026-11-05T08:00",
+        ])
+        const calls = callCount(canvasElement)
+        const clock = await openPopup(
+          panel.getByRole("button", { name: "Select time, To" }),
+          "Select time, To"
+        )
+        await expectValue(
+          canvasElement,
+          ["2026-11-05T08:00", "2026-11-20T10:00"],
+          calls + 1
+        )
+        const nine = clock.queryByRole("group", { name: "AM or PM" })
+          ? "9"
+          : "09"
+        await userEvent.click(
+          within(clock.getByRole("group", { name: "Hour" })).getByRole(
+            "button",
+            {
+              name: nine,
+            }
+          )
+        )
+        await expectValue(
+          canvasElement,
+          ["2026-11-05T08:00", "2026-11-20T09:00"],
+          calls + 2
+        )
       }
     )
   },
