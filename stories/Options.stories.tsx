@@ -560,9 +560,11 @@ export const Presets: Story = {
       await expect(
         panel.getByRole("combobox", { name: "Choose the Month" })
       ).toHaveDisplayValue("Dec")
-      await expect(
-        screen.getByRole("dialog", { name: "Select date" })
-      ).toBeVisible()
+      await waitFor(() =>
+        expect(
+          screen.getByRole("dialog", { name: "Select date" })
+        ).toBeVisible()
+      )
     })
   },
 }
@@ -596,9 +598,11 @@ export const WeekPresets: Story = {
       await expect(
         panel.getByRole("combobox", { name: "Choose the Year" })
       ).toHaveDisplayValue("2027")
-      await expect(
-        screen.getByRole("dialog", { name: "Select week" })
-      ).toBeVisible()
+      await waitFor(() =>
+        expect(
+          screen.getByRole("dialog", { name: "Select week" })
+        ).toBeVisible()
+      )
     })
   },
 }
@@ -629,9 +633,11 @@ export const MonthPresets: Story = {
         "aria-pressed",
         "true"
       )
-      await expect(
-        screen.getByRole("dialog", { name: "Select month" })
-      ).toBeVisible()
+      await waitFor(() =>
+        expect(
+          screen.getByRole("dialog", { name: "Select month" })
+        ).toBeVisible()
+      )
     })
   },
 }
@@ -664,9 +670,11 @@ export const YearPresets: Story = {
         "aria-pressed",
         "true"
       )
-      await expect(
-        screen.getByRole("dialog", { name: "Select year" })
-      ).toBeVisible()
+      await waitFor(() =>
+        expect(
+          screen.getByRole("dialog", { name: "Select year" })
+        ).toBeVisible()
+      )
     })
   },
 }
@@ -698,7 +706,7 @@ export const RangePresets: Story = {
           name: "Choose the Month",
         })
         await expect(months.map((select) => select.value)).toEqual(["11", "0"])
-        await expect(rangeDialog()).toBeVisible()
+        await waitFor(() => expect(rangeDialog()).toBeVisible())
       }
     )
   },
