@@ -58,7 +58,8 @@ const buildItem = (treeDir, item) => {
     ...importsOf(files),
     files: files.map((file) => {
       const rel = posix(path.relative(treeDir, file))
-      return { path: rel, type: item.type, target: `@${rel}` }
+      // registry:file is written as is; the CLI's code transforms would drop the cn-* classes of the exact copy.
+      return { path: rel, type: "registry:file", target: `@${rel}` }
     }),
   }
 }
