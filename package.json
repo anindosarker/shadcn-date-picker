@@ -8,10 +8,10 @@
   "type": "module",
   "scripts": {
     "lint": "eslint . && prettier --check . \"!pnpm-lock.yaml\" \"!registry/*/components/ui\" \"!registry/*/hooks\"",
-    "typecheck": "tsc -p tsconfig.baseui.json && tsc -p tsconfig.radix.json && tsc -p tsconfig.aria.json",
+    "typecheck": "tsc -p tsconfig.baseui.json && tsc -p tsconfig.radix.json && tsc -p tsconfig.aria.json && tsc -p tsconfig.stories.json",
     "registry:build": "node tools/registry-build.mjs",
     "registry:check": "node tools/registry-build.mjs --check",
-    "test": "node --input-type=module -e \"import { execFileSync } from 'node:child_process'; import { BASES, readyBases } from './tools/bases.mjs'; const i = process.argv.indexOf('--base'); const bases = i > 0 ? [process.argv[i + 1]] : readyBases(); for (const base of bases) { if (!BASES.includes(base)) throw new Error('unknown base ' + base); execFileSync('vitest', ['run'], { stdio: 'inherit', env: { ...process.env, DP_BASE: base } }); }\"",
+    "test": "node --input-type=module -e \"import { execFileSync } from 'node:child_process'; import { BASES, readyBases } from './tools/bases.mjs'; const i = process.argv.indexOf('--base'); const bases = i > 0 ? [process.argv[i + 1]] : readyBases(); for (const base of bases) { if (!BASES.includes(base)) throw new Error('unknown base ' + base); execFileSync('vitest', ['run'], { stdio: 'inherit', env: { ...process.env, DP_BASE: base } }); }\" --",
     "storybook": "storybook dev --no-open",
     "storybook:build": "node tools/site-build.mjs"
   },
