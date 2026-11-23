@@ -81,6 +81,8 @@ React Aria:
 - The phone dialog opens with focus on the dialog itself; its close button is one Tab away.
 - A range picker's popover is announced with the text of its trigger button, not with the picker's label.
 - In a right-to-left page the popover of a box is shifted 8 px to the other side.
+- A close that lands in the instant a popover opens can leave it on the page. This is stock react-aria-components behaviour; the picker adds no workaround.
+- On a touch screen a popover can flicker once as it opens. This is stock react-aria-components behaviour; the picker adds no workaround.
 
 ## License
 
