@@ -1,4 +1,4 @@
-// tools/registry-build.mjs fills each item's files and dependencies from components/date-picker.
+// tools/registry-build.mjs fills each item's files and dependencies from the generated components/date-picker.
 import type { Registry } from "shadcn/schema"
 
 export const registry = {

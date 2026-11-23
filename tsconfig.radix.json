@@ -6,6 +6,6 @@
     }
   },
   "include": ["registry/radix"],
-  // Node-only item definition, read by tools/registry-build.mjs.
-  "exclude": ["registry/radix/registry.ts"]
+  // Node-only item definition and the generated install copy, both from tools/registry-build.mjs.
+  "exclude": ["registry/radix/registry.ts", "registry/radix/generated"]
 }

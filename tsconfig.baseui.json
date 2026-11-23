@@ -19,6 +19,6 @@
     }
   },
   "include": ["registry/base"],
-  // Node-only item definition, read by tools/registry-build.mjs.
-  "exclude": ["registry/base/registry.ts"]
+  // Node-only item definition and the generated install copy, both from tools/registry-build.mjs.
+  "exclude": ["registry/base/registry.ts", "registry/base/generated"]
 }

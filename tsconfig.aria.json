@@ -6,6 +6,6 @@
     }
   },
   "include": ["registry/aria"],
-  // Node-only item definition, read by tools/registry-build.mjs.
-  "exclude": ["registry/aria/registry.ts"]
+  // Node-only item definition and the generated install copy, both from tools/registry-build.mjs.
+  "exclude": ["registry/aria/registry.ts", "registry/aria/generated"]
 }
