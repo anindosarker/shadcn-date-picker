@@ -8,6 +8,8 @@ import {
   expectClosed,
   expectValue,
   openPopup,
+  openRangePopup,
+  rangePopup,
   screen,
 } from "./support/play"
 
@@ -113,7 +115,7 @@ export const Range: Story = {
     })
 
     await step("PR3, PR9 per end a year box and a decade grid", async () => {
-      const panel = await openPopup(trigger, "Year range")
+      const panel = await openRangePopup(trigger)
       await expect(panel.getByRole("textbox", { name: "From" })).toHaveValue(
         "2020"
       )
@@ -131,7 +133,7 @@ export const Range: Story = {
     await step(
       "PR11 a reversed typed pair is ordered once focus leaves both boxes",
       async () => {
-        const panel = within(screen.getByRole("dialog", { name: "Year range" }))
+        const panel = rangePopup()
         const from = panel.getByRole("textbox", { name: "From" })
         await userEvent.clear(from)
         await userEvent.type(from, "2030")
@@ -149,7 +151,7 @@ export const Range: Story = {
     await step(
       "PR10 a far year typed: that end's grid follows at once",
       async () => {
-        const panel = within(screen.getByRole("dialog", { name: "Year range" }))
+        const panel = rangePopup()
         const from = panel.getByRole("textbox", { name: "From" })
         await userEvent.clear(from)
         await userEvent.type(from, "1443")
@@ -161,7 +163,7 @@ export const Range: Story = {
     )
 
     await step("PR4, PR5 a click starts over, then orders", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Year range" }))
+      const panel = rangePopup()
       const calls = callCount(canvasElement)
       await userEvent.click(
         year(panel.getByRole("group", { name: "1440 – 1449" }), "1445")
