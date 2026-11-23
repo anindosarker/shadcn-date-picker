@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.baseui.json",
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./registry/radix/*"]
+    }
+  },
+  "include": ["registry/radix"],
+  // Node-only item definition, read by tools/registry-build.mjs.
+  "exclude": ["registry/radix/registry.ts"]
+}

@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    // The picker reads process.env.NODE_ENV, as in the Next.js app it was approved in.
+    "types": ["vite/client", "node"],
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@/*": ["./registry/base/*"]
+    }
+  },
+  "include": ["registry/base"],
+  // Node-only item definition, read by tools/registry-build.mjs.
+  "exclude": ["registry/base/registry.ts"]
+}

@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.baseui.json",
+  "compilerOptions": {
+    "types": ["vite/client", "node"]
+  },
+  "include": ["registry/base", "stories", ".storybook"],
+  "exclude": ["registry/base/registry.ts"]
+}

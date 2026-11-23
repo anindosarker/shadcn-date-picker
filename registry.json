@@ -1,0 +1,10 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "shadcn-date-picker",
+  "homepage": "https://github.com/anindosarker/shadcn-date-picker",
+  "include": [
+    "registry/base/registry.json",
+    "registry/radix/registry.json",
+    "registry/aria/registry.json"
+  ]
+}
