@@ -2,5 +2,137 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "shadcn-date-picker",
   "homepage": "https://github.com/anindosarker/shadcn-date-picker",
-  "items": []
+  "items": [
+    {
+      "name": "date-picker-radix",
+      "type": "registry:component",
+      "title": "Date Picker (Radix UI)",
+      "description": "A date, time, week, month and year picker with ranges, built on shadcn/ui and Radix UI.",
+      "dependencies": ["cn", "date-fns", "lucide-react", "react-day-picker"],
+      "registryDependencies": [
+        "badge",
+        "button",
+        "button-group",
+        "calendar",
+        "dialog",
+        "field",
+        "input-group",
+        "native-select",
+        "popover",
+        "use-mobile"
+      ],
+      "files": [
+        {
+          "path": "generated/components/date-picker/components/day-calendar.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/day-calendar.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/period-views.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/period-views.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/picker-box.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/picker-box.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/picker-field.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/picker-field.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/picker-popup.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/picker-popup.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/picker-presets.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/picker-presets.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/picker-trigger.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/picker-trigger.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/time-columns.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/time-columns.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/time-field.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/time-field.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/components/view-nav.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/components/view-nav.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/date-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/date-picker.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/modes/day-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/modes/day-picker.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/modes/day-range-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/modes/day-range-picker.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/modes/period-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/modes/period-picker.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/modes/period-range-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/modes/period-range-picker.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/modes/time-range-picker.tsx",
+          "type": "registry:component",
+          "target": "@components/date-picker/modes/time-range-picker.tsx"
+        },
+        {
+          "path": "generated/components/date-picker/types.ts",
+          "type": "registry:component",
+          "target": "@components/date-picker/types.ts"
+        },
+        {
+          "path": "generated/components/date-picker/utils/labels.ts",
+          "type": "registry:component",
+          "target": "@components/date-picker/utils/labels.ts"
+        },
+        {
+          "path": "generated/components/date-picker/utils/range.ts",
+          "type": "registry:component",
+          "target": "@components/date-picker/utils/range.ts"
+        },
+        {
+          "path": "generated/components/date-picker/utils/time.ts",
+          "type": "registry:component",
+          "target": "@components/date-picker/utils/time.ts"
+        },
+        {
+          "path": "generated/components/date-picker/utils/values.ts",
+          "type": "registry:component",
+          "target": "@components/date-picker/utils/values.ts"
+        },
+        {
+          "path": "generated/components/date-picker/utils/views.ts",
+          "type": "registry:component",
+          "target": "@components/date-picker/utils/views.ts"
+        }
+      ]
+    }
+  ]
 }
