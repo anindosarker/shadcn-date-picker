@@ -8,8 +8,12 @@ import {
   browserTools,
   expectClosed,
   expectGone,
+  expectRangeClosed,
   expectValue,
   openPopup,
+  openRangePopup,
+  rangeDialog,
+  rangePopup,
   screen,
   typeKeys,
 } from "./support/play"
@@ -138,7 +142,7 @@ export const Range: Story = {
     await step(
       "MR1, PR9 per end a month box and a grid, never the same year",
       async () => {
-        const panel = await openPopup(trigger, "Month range")
+        const panel = await openRangePopup(trigger)
         await expect(panel.getByLabelText("From")).toHaveValue("2026-08")
         await expect(panel.getByLabelText("To")).toHaveValue("2026-11")
         await expect(
@@ -150,18 +154,16 @@ export const Range: Story = {
     )
 
     await step("PR4, PR7 both ends set: a click starts over", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Month range" }))
+      const panel = rangePopup()
       await userEvent.click(
         month(panel.getByRole("group", { name: "2026" }), "Feb")
       )
       await expectValue(canvasElement, ["2026-02", ""], 1)
-      await expect(
-        screen.getByRole("dialog", { name: "Month range" })
-      ).toBeVisible()
+      await expect(rangeDialog()).toBeVisible()
     })
 
     await step("PR5 only From set: the two in order", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Month range" }))
+      const panel = rangePopup()
       await userEvent.click(
         month(panel.getByRole("group", { name: "2027" }), "Jan")
       )
@@ -169,7 +171,7 @@ export const Range: Story = {
     })
 
     await step("PR9 the view not moved gives way", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Month range" }))
+      const panel = rangePopup()
       await userEvent.click(
         panel.getAllByRole("button", { name: "Next year" })[0]
       )
@@ -178,7 +180,7 @@ export const Range: Story = {
       ).toBeVisible()
       await expect(panel.getByRole("group", { name: "2027" })).toBeVisible()
       await userEvent.keyboard("{Escape}")
-      await expectClosed("Month range")
+      await expectRangeClosed()
     })
 
     await step("PR1 X", async () => {

@@ -9,8 +9,13 @@ import {
   dateKeys,
   day,
   expectClosed,
+  expectRangeClosed,
   expectValue,
+  isRangeOpen,
   openPopup,
+  openRangePopup,
+  rangePopup,
+  readDateOrder,
   realKeys,
   screen,
   today,
@@ -146,7 +151,7 @@ export const Range: Story = {
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement)
-    const popupName = "Date and time range"
+    await readDateOrder()
     const trigger = canvas.getByRole("button", { name: /^Nov 3, 2026/ })
 
     await step("R1 closed: the two ends as text", async () => {
@@ -158,7 +163,7 @@ export const Range: Story = {
     await step(
       "R3 popup: From and To date-time boxes with clocks",
       async () => {
-        const panel = await openPopup(trigger, popupName)
+        const panel = await openRangePopup(trigger)
         await expect(panel.getByLabelText("From")).toHaveValue(
           "2026-11-03T09:00"
         )
@@ -173,7 +178,7 @@ export const Range: Story = {
     )
 
     await step("R8 a new day gets the first or the last time", async () => {
-      const panel = within(screen.getByRole("dialog", { name: popupName }))
+      const panel = rangePopup()
       await userEvent.click(day(panel, "November 1st, 2026"))
       await expectValue(
         canvasElement,
@@ -189,7 +194,7 @@ export const Range: Story = {
     })
 
     await step("R20 an end's clock replaces that end's time", async () => {
-      const panel = within(screen.getByRole("dialog", { name: popupName }))
+      const panel = rangePopup()
       const clock = await openPopup(
         panel.getByRole("button", { name: "Select time, From" }),
         "Select time, From"
@@ -211,9 +216,9 @@ export const Range: Story = {
     await step(
       "R2, R20 cleared: an empty end's clock is disabled",
       async () => {
-        if (screen.queryByRole("dialog", { name: popupName })) {
+        if (isRangeOpen()) {
           await userEvent.keyboard("{Escape}")
-          await expectClosed(popupName)
+          await expectRangeClosed()
         }
         await userEvent.click(
           canvas.getByRole("button", { name: "Clear Date and time range" })
@@ -223,7 +228,7 @@ export const Range: Story = {
           name: "Pick a date and time range",
         })
         await expect(empty).toHaveFocus()
-        const panel = await openPopup(empty, popupName)
+        const panel = await openRangePopup(empty)
         await expect(
           panel.getByRole("button", { name: "Select time, From" })
         ).toBeDisabled()
@@ -237,15 +242,15 @@ export const Range: Story = {
     await step(
       "R16 opening an end's clock orders a reversed pair, then edits that end",
       async () => {
-        const panel = within(screen.getByRole("dialog", { name: popupName }))
+        const panel = rangePopup()
         await typeKeys(
           panel.getByLabelText("From"),
-          `${await dateKeys("2026-11-20")}1000A`
+          `${dateKeys("2026-11-20")}1000A`
         )
         await expectValue(canvasElement, ["2026-11-20T10:00", ""])
         await typeKeys(
           panel.getByLabelText("To"),
-          `${await dateKeys("2026-11-05")}0800A`
+          `${dateKeys("2026-11-05")}0800A`
         )
         await expectValue(canvasElement, [
           "2026-11-20T10:00",

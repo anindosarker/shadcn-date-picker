@@ -8,11 +8,15 @@ import {
   browserTools,
   callCount,
   dateKeys,
-  expectGone,
   day,
   expectClosed,
+  expectGone,
+  expectRangeClosed,
   expectValue,
   openPopup,
+  openRangePopup,
+  rangePopup,
+  readDateOrder,
   realKeys,
   screen,
   today,
@@ -36,6 +40,7 @@ export const Single: Story = {
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement)
+    await readDateOrder()
     const box = canvas.getByLabelText("Date")
     const clear = canvas.getByRole("button", { name: "Clear Date" })
     const opener = canvas.getByRole("button", { name: "Select date" })
@@ -112,10 +117,7 @@ export const Single: Story = {
     }
 
     await step("B1 a complete date typed", async () => {
-      await typeKeys(
-        canvas.getByLabelText("Date"),
-        await dateKeys("2026-11-25")
-      )
+      await typeKeys(canvas.getByLabelText("Date"), dateKeys("2026-11-25"))
       await expectValue(canvasElement, "2026-11-25")
       await expect(canvas.getByLabelText("last call")).toHaveTextContent(
         '"2026-11-25"'
@@ -152,6 +154,7 @@ export const Range: Story = {
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement)
+    await readDateOrder()
     const trigger = canvas.getByRole("button", {
       name: "Nov 3, 2026 - Nov 12, 2026",
     })
@@ -164,7 +167,7 @@ export const Range: Story = {
     })
 
     await step("R3 popup: From and To, each a box and a calendar", async () => {
-      const panel = await openPopup(trigger, "Date range")
+      const panel = await openRangePopup(trigger)
       await expect(panel.getByLabelText("From")).toHaveValue("2026-11-03")
       await expect(panel.getByLabelText("To")).toHaveValue("2026-11-12")
       const months = panel.getAllByRole<HTMLSelectElement>("combobox", {
@@ -174,7 +177,7 @@ export const Range: Story = {
     })
 
     await step("R7, R11 react-day-picker's range rule", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Date range" }))
+      const panel = rangePopup()
       await userEvent.click(day(panel, "November 1st, 2026"))
       await expectValue(canvasElement, ["2026-11-01", "2026-11-12"], 1)
       await userEvent.click(day(panel, "November 20th, 2026"))
@@ -188,7 +191,7 @@ export const Range: Story = {
     await step(
       "R10 only To set: the clicked day and To's day in order",
       async () => {
-        const panel = within(screen.getByRole("dialog", { name: "Date range" }))
+        const panel = rangePopup()
         await userEvent.click(panel.getByRole("button", { name: "Clear From" }))
         await expectValue(canvasElement, ["", "2026-11-20"], 3)
         await userEvent.click(day(panel, "November 25th, 2026"))
@@ -197,7 +200,7 @@ export const Range: Story = {
     )
 
     await step("R17 the calendar not moved gives way", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Date range" }))
+      const panel = rangePopup()
       const [next] = panel.getAllByRole("button", {
         name: "Go to the Next Month",
       })
@@ -211,7 +214,7 @@ export const Range: Story = {
       await userEvent.click(next)
       await waitFor(() => expect(months()).toEqual(["10", "11"]))
       await userEvent.keyboard("{Escape}")
-      await expectClosed("Date range")
+      await expectRangeClosed()
     })
 
     await step("R2 X on the trigger, focus back on the trigger", async () => {
@@ -224,9 +227,8 @@ export const Range: Story = {
     })
 
     await step("R6, R7 a first click, then the one day again", async () => {
-      const panel = await openPopup(
-        canvas.getByRole("button", { name: "Pick a date" }),
-        "Date range"
+      const panel = await openRangePopup(
+        canvas.getByRole("button", { name: "Pick a date" })
       )
       await userEvent.click(todayButton(panel))
       await expectValue(canvasElement, [today(), today()], 6)
@@ -239,10 +241,10 @@ export const Range: Story = {
     }
 
     await step("R12, R14 typed ends, reversed as typed", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Date range" }))
-      await typeKeys(panel.getByLabelText("From"), await dateKeys("2026-11-20"))
+      const panel = rangePopup()
+      await typeKeys(panel.getByLabelText("From"), dateKeys("2026-11-20"))
       await expectValue(canvasElement, ["2026-11-20", ""])
-      await typeKeys(panel.getByLabelText("To"), await dateKeys("2026-11-05"))
+      await typeKeys(panel.getByLabelText("To"), dateKeys("2026-11-05"))
       await expectValue(canvasElement, ["2026-11-20", "2026-11-05"])
       const months = panel.getAllByRole<HTMLSelectElement>("combobox", {
         name: "Choose the Month",
@@ -251,7 +253,7 @@ export const Range: Story = {
     })
 
     await step("R15 leaving both boxes orders the pair, once", async () => {
-      const panel = within(screen.getByRole("dialog", { name: "Date range" }))
+      const panel = rangePopup()
       const calls = callCount(canvasElement)
       await userEvent.click(
         panel.getAllByRole("button", { name: "Go to today" })[0]
@@ -262,7 +264,7 @@ export const Range: Story = {
     await step(
       "R13, F5 a far year typed: the calendar follows every digit",
       async () => {
-        const panel = within(screen.getByRole("dialog", { name: "Date range" }))
+        const panel = rangePopup()
         const from = panel.getByLabelText("From")
         await typeKeys(from, "{ArrowRight}{ArrowRight}")
         for (const [digit, year] of [
