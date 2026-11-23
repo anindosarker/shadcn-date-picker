@@ -3,11 +3,13 @@ import { defineConfig, globalIgnores } from "eslint/config"
 import tseslint from "typescript-eslint"
 
 export default defineConfig([
-  // Parts and the hook are what `shadcn add` writes for each style, never edited.
+  // Parts and the hook are what `shadcn add` writes for each style, the
+  // generated folder what pnpm registry:build writes; never edited.
   globalIgnores([
     "storybook-static",
     "registry/*/components/ui",
     "registry/*/hooks",
+    "registry/*/generated",
   ]),
   {
     files: ["**/*.{ts,tsx,mjs}"],

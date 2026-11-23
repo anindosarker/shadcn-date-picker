@@ -1,0 +1,3 @@
+# Written by pnpm registry:build, and the stock shadcn style it reads; never edited.
+registry/*/generated
+registry/styles
