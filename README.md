@@ -10,6 +10,12 @@ Base UI (shadcn style `base-nova`):
 pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-base
 ```
 
+Radix UI (shadcn style `radix-nova`):
+
+```bash
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-radix
+```
+
 React Aria (shadcn style `aria-nova`):
 
 ```bash
@@ -43,6 +49,11 @@ export function Example() {
 ```
 
 ## Differences between the bases
+
+Radix UI:
+
+- Tab moves round the controls of an open popover and does not close it. Escape or a press outside closes it.
+- On a touch screen a popover and the phone dialog open with focus on their first control. The clock's popover opens as on Base UI.
 
 React Aria:
 
