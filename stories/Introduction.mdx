@@ -1,0 +1,70 @@
+import { Meta } from "@storybook/addon-docs/blocks"
+
+<Meta title="Introduction" />
+
+# shadcn-date-picker
+
+A date picker for shadcn/ui. One component, `DatePicker`, picks a date, a date and time, a time, a week, a month or a year, as one value or as a range. Values are the browser's own strings (`2026-11-21`, `2026-11-21T09:30`, `09:30`, `2026-W47`, `2026-11`, `2026`), so they go straight into a form or a URL.
+
+It is installed into your project with the shadcn CLI. The picker's files land in `components/date-picker/`; the shadcn parts it uses (button, calendar, popover and the like) come from your own style.
+
+## Install
+
+```bash
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-base
+```
+
+## Usage
+
+The picker is controlled: pass `value` and `onChange`.
+
+```tsx
+import * as React from "react"
+import { DatePicker } from "@/components/date-picker/date-picker"
+import type { RangeValue } from "@/components/date-picker/types"
+
+export function Example() {
+  const [day, setDay] = React.useState("2026-11-21")
+  const [stay, setStay] = React.useState<RangeValue>(["", ""])
+  return (
+    <>
+      <DatePicker type="date" value={day} onChange={setDay} />
+      <DatePicker type="date" range value={stay} onChange={setStay} />
+    </>
+  )
+}
+```
+
+One example per type:
+
+```tsx
+<DatePicker type="date" value="2026-11-21" onChange={setValue} />
+<DatePicker type="datetime" step={900} value="2026-11-21T09:30" onChange={setValue} />
+<DatePicker type="time" value="09:30" onChange={setValue} />
+<DatePicker type="week" value="2026-W47" onChange={setValue} />
+<DatePicker type="month" value="2026-11" onChange={setValue} />
+<DatePicker type="year" value="2026" onChange={setValue} />
+```
+
+Add `range` to any of them for a `[from, to]` pair; an empty end is `""`.
+
+## Props
+
+| Prop                          | Type                                                            | What it does                                                                                                |
+| ----------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `type`                        | `"date" \| "datetime" \| "time" \| "week" \| "month" \| "year"` | The kind of value.                                                                                          |
+| `range`                       | `boolean`                                                       | A `[from, to]` pair instead of one value.                                                                   |
+| `value`                       | `string` or `[string, string]`                                  | The value, in the browser's format for the type; `""` is empty.                                             |
+| `onChange`                    | `(value) => void`                                               | Called with the new value; not called when the value stays the same.                                        |
+| `min`, `max`                  | `string`                                                        | Limits in the type's format. A limit in another format is ignored, with a console error outside production. |
+| `step`                        | `number`                                                        | Seconds between times, for `datetime` and `time`. Counted from the time of day of `min`, else from 00:00.   |
+| `presets`                     | `{ label, value }[]`                                            | Buttons under the calendar; `value` may be a function. Not for `time`.                                      |
+| `labels`                      | `Partial<PickerLabels>`                                         | Replaces the picker's own words, key by key.                                                                |
+| `disabled`                    | `boolean`                                                       | Disables the box or trigger and the popup button.                                                           |
+| `presentation`                | `"popover" \| "dialog" \| "auto"`                               | How the calendar opens; `auto` is a dialog under 768 px wide.                                               |
+| `popoverProps`, `dialogProps` | object                                                          | Open state (`open`, `defaultOpen`, `onOpenChange`) and the content props of the popover or dialog.          |
+| `calendarProps`               | object                                                          | Props passed to react-day-picker, such as `locale` and `disabled`.                                          |
+
+Other attributes (`id`, `aria-label`, `aria-labelledby`, `aria-describedby`, `aria-invalid`, `className`) go to the box or the trigger, so a `<label htmlFor>` of your form names the picker.
+
+The stories in the sidebar show each type and option, with the value and the `onChange` calls under the picker.
