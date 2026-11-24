@@ -7,19 +7,19 @@ A date picker for shadcn/ui. It is one component, `DatePicker`, with a `type` (`
 Base UI (shadcn style `base-nova`):
 
 ```bash
-pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-base#v0.1.1
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-base#v1.0.0
 ```
 
 Radix UI (shadcn style `radix-nova`):
 
 ```bash
-pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-radix#v0.1.1
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-radix#v1.0.0
 ```
 
 React Aria (shadcn style `aria-nova`):
 
 ```bash
-pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-aria#v0.1.1
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-aria#v1.0.0
 ```
 
 The files land in `components/date-picker/`. The CLI adds the shadcn parts the picker uses (button, popover, dialog and others) from your own style. On Base UI and Radix UI the calendar is your style's calendar part too; on React Aria the picker brings its own day calendar, built on react-day-picker with the classes of shadcn's nova calendar.
@@ -56,6 +56,8 @@ export function Example() {
 ## Demo and docs
 
 https://date-picker.shadcn-table.com/
+
+The changes of each version are in [CHANGELOG.md](CHANGELOG.md).
 
 The Storybook of each base: https://date-picker.shadcn-table.com/storybook/
 
