@@ -1,7 +1,8 @@
 // pnpm registry:build writes, for every base with a picker, the generated
-// install files (registry/<base>/generated/components/date-picker: the source
-// run through shadcn's own createStyleMap and transformStyle with the nova
-// style) and registry/<base>/registry.json from registry.ts.
+// install files (packages/shadcn-date-picker/registry/<base>/generated/
+// components/date-picker: the source run through shadcn's own createStyleMap
+// and transformStyle with the nova style) and
+// packages/shadcn-date-picker/registry/<base>/registry.json from registry.ts.
 // pnpm registry:check (--check) writes nothing and exits 1 when a generated
 // file or registry.json is out of step with the source, or an item file is
 // missing.
