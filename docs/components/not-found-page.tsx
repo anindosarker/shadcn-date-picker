@@ -1,6 +1,7 @@
 import { FullSearchTrigger } from 'fumadocs-ui/layouts/shared/slots/search-trigger';
 import { IntentLink } from '@/components/dev-home/shared/intent-link';
 import { archivo } from '@/components/dev-home/v4/font';
+import { Footer } from '@/components/dev-home/v12/footer';
 import { Nav } from '@/components/dev-home/v12/nav';
 import { NAV_LINKS } from '@/lib/layout.shared';
 import '@/components/dev-home/v4/v4.css';
@@ -10,7 +11,7 @@ import '@/components/dev-home/v12/v12.css';
 
 /**
  * The site's own 404 page (D121), framed like the home page: its top bar
- * (with the base select, as in the docs bar). In the docs' mono
+ * (with the base select, as in the docs bar) and the short footer. In the docs' mono
  * dashed look: the line "404" with "This page does not exist", the docs
  * search box (the root provider's search dialog) and the four sections in
  * the order of D101. Rendered by app/not-found.tsx for every missing address,
@@ -51,6 +52,7 @@ export function NotFoundPage() {
           </section>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }

@@ -1,18 +1,7 @@
 'use client';
 
 import { useSyncExternalStore, type ReactNode } from 'react';
-import {
-  ChevronDownIcon,
-  EllipsisIcon,
-  ExternalLinkIcon,
-} from 'lucide-react';
 import { Button } from '@/components/ui-radix/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui-radix/dropdown-menu';
 import { BaseSwitch, useBase } from '@/components/base-selector';
 import { CodeExplorer, type ExplorerFile } from '@/components/code-explorer';
 import { GitHubIcon } from '@/components/github-icon';
@@ -166,28 +155,17 @@ export const ExamplePlayground = ({ children, name, variants }: Props) => {
             aria-label="Open example"
             className="st-page-actions inline-flex h-8 shrink-0 items-stretch overflow-hidden rounded-md border bg-fd-secondary max-sm:ml-auto [&>*]:h-full [&>*]:rounded-none [&>*]:border-0"
           >
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  className="w-7 border-l max-sm:border-l-0"
-                  aria-label="More actions"
-                >
-                  <ChevronDownIcon className="max-sm:hidden" />
-                  <EllipsisIcon className="sm:hidden" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="docs-menu w-52">
-                <DropdownMenuItem asChild>
-                  <a href={githubUrl} target="_blank" rel="noreferrer">
-                    <GitHubIcon />
-                    Open in GitHub
-                    <ExternalLinkIcon className="ml-auto text-fd-muted-foreground" />
-                  </a>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button asChild variant="ghost" size="sm" className="px-2.5">
+              <a
+                href={githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open in GitHub"
+              >
+                <GitHubIcon />
+                <span className="max-sm:sr-only">GitHub</span>
+              </a>
+            </Button>
           </div>
         </div>
       </header>
