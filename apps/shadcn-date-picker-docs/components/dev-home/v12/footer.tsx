@@ -1,5 +1,6 @@
 import { IntentLink } from '@/components/dev-home/shared/intent-link';
 import { GITHUB_URL } from '@/components/dev-home/v4/nav';
+import { Dune } from './dune';
 
 const LINKS = [
   { label: 'GitHub', href: GITHUB_URL },
@@ -13,7 +14,8 @@ const LINKS = [
  */
 export function Footer() {
   return (
-    <footer className="v4-footer border-t border-dashed border-(--v12-dash)">
+    <footer className="v4-footer">
+      <Dune fps={6} className="v4-footer-dune" />
       <div className="v4-shell v4-footer-grid">
         <div className="v4-footer-brand">
           <IntentLink href="/" className="v4-wordmark">

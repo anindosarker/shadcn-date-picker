@@ -1,0 +1,6 @@
+{
+  "title": "Get Started",
+  "root": true,
+  "defaultOpen": true,
+  "pages": ["install"]
+}

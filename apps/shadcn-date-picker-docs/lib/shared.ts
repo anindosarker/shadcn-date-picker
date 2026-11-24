@@ -1,3 +1,5 @@
+import { createGetUrl } from 'fumadocs-core/source';
+
 export const appName = 'Shadcn Date Picker';
 /** Lowercase name used in page titles and OG/Twitter metadata. */
 export const siteName = 'shadcn-date-picker';
@@ -8,6 +10,7 @@ export const siteName = 'shadcn-date-picker';
 export const siteDescription =
   'A date picker for shadcn/ui: one DatePicker component for dates, times, weeks, months and years, with ranges, on Base UI, Radix UI and React Aria. Installs as source via shadcn CLI.';
 export const docsRoute = '/docs';
+export const docsContentRoute = '/llms.mdx/docs';
 
 // fill this with your actual GitHub info, for example:
 export const gitConfig = {
@@ -23,3 +26,11 @@ export const gitConfig = {
 export const siteUrl = (
   process.env.NEXT_PUBLIC_SITE_URL ?? 'https://date-picker.shadcn-table.com'
 ).replace(/\/$/, '');
+
+const getContentUrl = createGetUrl(docsContentRoute);
+
+export function getPageMarkdownUrl(page: { slugs: string[]; locale?: string }) {
+  const segments = [...page.slugs, 'content.md'];
+
+  return { segments, url: getContentUrl(segments, page.locale) };
+}
