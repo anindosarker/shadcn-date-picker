@@ -1,6 +1,33 @@
 {
-  "framework": null,
-  "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm storybook:build",
-  "outputDirectory": "storybook-static"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "docs": {
+      "root": "docs",
+      "framework": "nextjs"
+    },
+    "storybook": {
+      "root": ".",
+      "framework": "storybook",
+      "buildCommand": "pnpm storybook:build",
+      "outputDirectory": "storybook-static",
+      "trailingSlash": true
+    }
+  },
+  "redirects": [
+    {
+      "source": "/:base(base|radix|aria)",
+      "destination": "/storybook/:base/",
+      "permanent": false
+    },
+    {
+      "source": "/:base(base|radix|aria)/:path*",
+      "destination": "/storybook/:base/:path*",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    { "source": "/storybook", "destination": { "service": "storybook" } },
+    { "source": "/storybook/(.*)", "destination": { "service": "storybook" } },
+    { "source": "/(.*)", "destination": { "service": "docs" } }
+  ]
 }

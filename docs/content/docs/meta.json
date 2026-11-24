@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "---Get started---",
+    "install",
+    "---Pickers---",
+    "date",
+    "date-time",
+    "time",
+    "week",
+    "month",
+    "year",
+    "ranges",
+    "---Reference---",
+    "props"
+  ]
+}

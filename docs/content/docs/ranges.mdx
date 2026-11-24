@@ -1,0 +1,22 @@
+---
+title: 'Ranges'
+description: 'A from and to pair for any type.'
+full: true
+---
+
+Add `range` to any of the types for a `[from, to]` pair; an empty end is `""`. The picker stays controlled: `value` and `onChange` take the pair.
+
+<ExampleSnippet name="date-range" />
+
+## Props
+
+| Prop | Type | What it does |
+| --- | --- | --- |
+| `range` | `boolean` | A `[from, to]` pair instead of one value. |
+| `value` | `[string, string]` | The pair, each end in the browser's format for the type; an empty end is `""`. |
+| `onChange` | `(value: [string, string]) => void` | Called with the new pair; not called when the pair stays the same. |
+| `presets` | `{ label, value }[]` | Buttons under the calendar; each `value` is a pair, or a function that returns one. |
+
+A time range takes the content props of the popover in `popoverProps`, not its open state.
+
+More options (limits, presets, labels, the dialog) are in the <StorybookLink>Storybook</StorybookLink>.

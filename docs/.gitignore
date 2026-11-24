@@ -1,0 +1,24 @@
+# deps
+/node_modules
+
+# generated content
+.source
+# per-style sheets (lib/build-styles.mjs), emitted before next dev and next build
+/public/styles/
+
+# test & build
+/.next/
+*.tsbuildinfo
+
+# others
+.vercel
+next-env.d.ts
+
+# picker tree copies per base (lib/registry-trees.mjs)
+/registry/
+
+# generated demo variants per base and the code view's sources (lib/example-variants.mjs)
+/demos/.base/
+/demos/.radix/
+/demos/.aria/
+/demos/sources.json

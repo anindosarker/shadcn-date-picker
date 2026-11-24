@@ -1,17 +1,18 @@
-// The site: one static Storybook per ready base, a landing page and version.txt.
+// The Storybook of the site: one static Storybook per ready base and their list, under /storybook/.
 import { execFileSync } from "node:child_process"
 import fs from "node:fs"
 import path from "node:path"
 import { ROOT, readyBases } from "./bases.mjs"
 
-const out = path.join(ROOT, "storybook-static")
+const root = path.join(ROOT, "storybook-static")
+const out = path.join(root, "storybook")
 const bases = readyBases()
 const { version } = JSON.parse(
   fs.readFileSync(path.join(ROOT, "package.json"), "utf8")
 )
 const names = { base: "Base UI", radix: "Radix UI", aria: "React Aria" }
 
-fs.rmSync(out, { recursive: true, force: true })
+fs.rmSync(root, { recursive: true, force: true })
 for (const base of bases) {
   execFileSync("storybook", ["build", "--quiet", "-o", path.join(out, base)], {
     cwd: ROOT,
@@ -55,4 +56,3 @@ ${items}
 </html>
 `
 )
-fs.writeFileSync(path.join(out, "version.txt"), `${version}\n`)

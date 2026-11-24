@@ -1,0 +1,93 @@
+'use client';
+
+import type { ComponentProps } from 'react';
+import Link from 'next/link';
+import { SidebarIcon } from 'lucide-react';
+import { useNotebookLayout } from 'fumadocs-ui/layouts/notebook';
+import { BaseSwitch } from '@/components/base-selector';
+import { GitHubIcon } from '@/components/github-icon';
+import { cn } from '@/lib/cn';
+import { GITHUB_URL, LIBRARY_VERSION } from '@/lib/layout.shared';
+import { SectionTabs } from '@/components/section-tabs';
+
+/**
+ * `slots.header` for the docs layout: the landing page's bar (mono
+ * "// shadcn-date-picker" wordmark with the version linking to the GitHub releases, GitHub, the base select and the theme pill),
+ * plus the search and sidebar triggers the docs need; the section tabs
+ * (components/section-tabs.tsx, L7) are its second row. Keeps
+ * fumadocs' `#nd-subnav` id and grid area so the layout and the sticky
+ * offsets still apply.
+ * Styles: app/global.css ("landing look").
+ */
+export function SiteNav(props: ComponentProps<'header'>) {
+  const { slots } = useNotebookLayout();
+
+  return (
+    <header
+      id="nd-subnav"
+      {...props}
+      className={cn('site-nav [grid-area:header]', props.className)}
+    >
+      <div className="site-nav-row">
+        {/* the wordmark; the sidebar collapse button leads the tab row */}
+        <div className="flex min-w-0 items-center gap-2 [grid-area:brand]">
+          <Link href="/" className="site-nav-brand">
+            <span aria-hidden="true" className="site-nav-slash">
+              {'//'}
+            </span>
+            <span>shadcn-date-picker</span>
+          </Link>
+          <a
+            href={`${GITHUB_URL}/releases`}
+            className="shrink-0 font-mono text-xs text-fd-muted-foreground transition-colors hover:text-(--docs-accent)"
+          >
+            v{LIBRARY_VERSION}
+          </a>
+        </div>
+        {/* from lg: the search field in the centre, max 28rem */}
+        {slots.searchTrigger && (
+          <div className="hidden min-w-0 justify-center [grid-area:search] lg:flex">
+            <slots.searchTrigger.full
+              hideIfDisabled
+              className="site-nav-search"
+            />
+          </div>
+        )}
+        <div className="site-nav-actions">
+          {/* below lg: the search icon with the actions */}
+          {slots.searchTrigger && (
+            <slots.searchTrigger.sm
+              hideIfDisabled
+              className="site-nav-icon site-nav-search-sm"
+            />
+          )}
+          <a
+            href={GITHUB_URL}
+            aria-label="GitHub"
+            className="site-nav-icon site-nav-desktop"
+          >
+            <GitHubIcon />
+          </a>
+          {/* the site-wide base (Base UI | Radix UI | React Aria) next to the theme pill */}
+          <div className="site-nav-desktop">
+            <BaseSwitch />
+          </div>
+          {slots.themeSwitch && (
+            <div className="site-nav-desktop">
+              <slots.themeSwitch />
+            </div>
+          )}
+          {slots.sidebar && (
+            <slots.sidebar.trigger
+              aria-label="Open sidebar"
+              className="site-nav-icon site-nav-mobile"
+            >
+              <SidebarIcon />
+            </slots.sidebar.trigger>
+          )}
+        </div>
+      </div>
+      <SectionTabs />
+    </header>
+  );
+}

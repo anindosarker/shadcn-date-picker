@@ -57,6 +57,8 @@ export function Example() {
 
 https://date-picker.shadcn-table.com/
 
+The Storybook of each base: https://date-picker.shadcn-table.com/storybook/
+
 ## What it does not do
 
 - It shows no error message of its own and does not set `aria-invalid`. Your form does that; the picker passes `aria-invalid`, `aria-describedby`, `disabled`, `required`, `min`, `max` and `step` to the browser input.
