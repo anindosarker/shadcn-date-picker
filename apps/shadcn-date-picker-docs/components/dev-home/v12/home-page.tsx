@@ -2,7 +2,9 @@ import { ArrowRightIcon } from 'lucide-react';
 import { IntentLink } from '@/components/dev-home/shared/intent-link';
 import { InstallCommand } from '@/components/dev-home/shared/install-command';
 import { archivo } from '@/components/dev-home/v4/font';
+import { Starfield } from '@/components/dev-home/v4/starfield';
 import { ExampleVariant } from '@/components/example-variant';
+import { Dune } from './dune';
 import { Footer } from './footer';
 import { Nav } from './nav';
 import '@/components/dev-home/v4/v4.css';
@@ -17,10 +19,12 @@ import './v12.css';
 export function HomePage() {
   return (
     <div data-variant="12" className={`v4-root v12 ${archivo.variable}`}>
+      <Starfield />
       <Nav baseSwitch />
 
       <main className="flex flex-1 flex-col">
         <section className="v12-hero" aria-labelledby="v12-title">
+          <Dune className="v12-field" fps={9} />
           <div className="v4-shell v12-hero-copy">
             <p className="v7-eyebrow v12-eyebrow">
               <span>{'//'}</span> A date picker for shadcn/ui
