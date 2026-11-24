@@ -2,11 +2,11 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "services": {
     "docs": {
-      "root": "apps/shadcn-date-picker-docs",
+      "root": "docs",
       "framework": "nextjs"
     },
     "storybook": {
-      "root": "packages/shadcn-date-picker",
+      "root": ".",
       "framework": "storybook",
       "buildCommand": "pnpm storybook:build",
       "outputDirectory": "storybook-static",

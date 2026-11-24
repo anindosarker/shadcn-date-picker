@@ -20,6 +20,6 @@ jobs:
       - run: pnpm registry:check
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test
-      - run: pnpm --filter shadcn-date-picker-docs lint
-      - run: pnpm --filter shadcn-date-picker-docs types:check
-      - run: pnpm --filter shadcn-date-picker-docs build
+      - run: pnpm --filter docs lint
+      - run: pnpm --filter docs types:check
+      - run: pnpm --filter docs build

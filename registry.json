@@ -3,8 +3,8 @@
   "name": "shadcn-date-picker",
   "homepage": "https://github.com/anindosarker/shadcn-date-picker",
   "include": [
-    "packages/shadcn-date-picker/registry/base/registry.json",
-    "packages/shadcn-date-picker/registry/radix/registry.json",
-    "packages/shadcn-date-picker/registry/aria/registry.json"
+    "registry/base/registry.json",
+    "registry/radix/registry.json",
+    "registry/aria/registry.json"
   ]
 }

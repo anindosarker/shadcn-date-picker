@@ -2,20 +2,20 @@
 import { execFileSync } from "node:child_process"
 import fs from "node:fs"
 import path from "node:path"
-import { PACKAGE, readyBases } from "./bases.mjs"
+import { ROOT, readyBases } from "./bases.mjs"
 
-const root = path.join(PACKAGE, "storybook-static")
+const root = path.join(ROOT, "storybook-static")
 const out = path.join(root, "storybook")
 const bases = readyBases()
 const { version } = JSON.parse(
-  fs.readFileSync(path.join(PACKAGE, "package.json"), "utf8")
+  fs.readFileSync(path.join(ROOT, "package.json"), "utf8")
 )
 const names = { base: "Base UI", radix: "Radix UI", aria: "React Aria" }
 
 fs.rmSync(root, { recursive: true, force: true })
 for (const base of bases) {
   execFileSync("storybook", ["build", "--quiet", "-o", path.join(out, base)], {
-    cwd: PACKAGE,
+    cwd: ROOT,
     stdio: "inherit",
     env: { ...process.env, DP_BASE: base },
   })

@@ -1,7 +1,7 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 import { Logo } from '@/components/logo';
 import { ThemeControls } from '@/components/theme-controls';
-import pkg from '../../../packages/shadcn-date-picker/package.json';
+import pkg from '../../package.json';
 import { gitConfig } from './shared';
 
 /** Section links, rendered by the sidebar section tabs (components/section-tabs.tsx). */

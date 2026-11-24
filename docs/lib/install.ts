@@ -2,7 +2,7 @@
 // import from server components, client components and the page checks'
 // expectations.
 import { DEFAULT_BASE, BASE_LABELS, BASES, type Base } from './bases.mjs';
-import pkg from '../../../packages/shadcn-date-picker/package.json';
+import pkg from '../../package.json';
 import { gitConfig } from './shared';
 
 export const packageManagers = ['pnpm', 'npm', 'yarn', 'bun'] as const;

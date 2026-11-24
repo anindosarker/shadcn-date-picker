@@ -1,5 +1,5 @@
 import type { StorybookConfig } from "@storybook/react-vite"
-import { resolveBase } from "../../../tools/bases.mjs"
+import { resolveBase } from "../tools/bases.mjs"
 
 const DP_BASE = resolveBase(process.env.DP_BASE)
 

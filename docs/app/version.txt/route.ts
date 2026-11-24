@@ -1,4 +1,4 @@
-import pkg from '../../../../packages/shadcn-date-picker/package.json';
+import pkg from '../../../package.json';
 
 export const revalidate = false;
 

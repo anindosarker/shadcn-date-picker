@@ -1,8 +1,7 @@
 // pnpm registry:build writes, for every base with a picker, the generated
-// install files (packages/shadcn-date-picker/registry/<base>/generated/
-// components/date-picker: the source run through shadcn's own createStyleMap
-// and transformStyle with the nova style) and
-// packages/shadcn-date-picker/registry/<base>/registry.json from registry.ts.
+// install files (registry/<base>/generated/components/date-picker: the source
+// run through shadcn's own createStyleMap and transformStyle with the nova
+// style) and registry/<base>/registry.json from registry.ts.
 // pnpm registry:check (--check) writes nothing and exits 1 when a generated
 // file or registry.json is out of step with the source, or an item file is
 // missing.
@@ -12,12 +11,12 @@ import { pathToFileURL } from "node:url"
 import * as prettier from "prettier"
 import { registrySchema } from "shadcn/schema"
 import { createStyleMap, transformStyle } from "shadcn/utils"
-import { BASES, PACKAGE, ROOT, readyBases } from "./bases.mjs"
+import { BASES, ROOT, readyBases } from "./bases.mjs"
 
 const CHECK = process.argv.includes("--check")
 const PICKER = "components/date-picker"
 const GENERATED = "generated"
-const STYLE = path.join(PACKAGE, "registry/styles/style-nova.css")
+const STYLE = path.join(ROOT, "registry/styles/style-nova.css")
 
 const walk = (dir) =>
   fs.existsSync(dir)
@@ -70,7 +69,7 @@ const fail = (message) => {
 
 const ready = readyBases()
 for (const base of BASES) {
-  const treeDir = path.join(PACKAGE, "registry", base)
+  const treeDir = path.join(ROOT, "registry", base)
   const sourceDir = path.join(treeDir, PICKER)
   const generatedDir = path.join(treeDir, GENERATED, PICKER)
   const isReady = ready.includes(base)
