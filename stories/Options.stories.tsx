@@ -910,21 +910,15 @@ export const IgnoredLimits: Story = {
   ),
   play: async ({ canvasElement, step }) => {
     const canvas = within(canvasElement)
-    await step(
-      "G3, G4 a limit or step off the format is ignored, with an error",
-      async () => {
-        await expect(console.error).toHaveBeenCalledWith(
-          'DatePicker: min "2026/11/05" is ignored: not a datetime value'
-        )
-        await expect(console.error).toHaveBeenCalledWith(
-          "DatePicker: step 1.5 is ignored: not a whole number of seconds above zero"
-        )
-        const panel = await openPopup(
-          canvas.getByRole("button", { name: "Select date and time" }),
-          "Select date and time"
-        )
-        await expect(day(panel, "November 1st, 2026")).toBeEnabled()
-      }
-    )
+    await step("G3, G4 a limit or step off the format is ignored", async () => {
+      await expect(console.error).not.toHaveBeenCalledWith(
+        expect.stringContaining("DatePicker:")
+      )
+      const panel = await openPopup(
+        canvas.getByRole("button", { name: "Select date and time" }),
+        "Select date and time"
+      )
+      await expect(day(panel, "November 1st, 2026")).toBeEnabled()
+    })
   },
 }

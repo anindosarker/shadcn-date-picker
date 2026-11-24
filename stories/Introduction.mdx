@@ -64,20 +64,20 @@ Add `range` to any of them for a `[from, to]` pair; an empty end is `""`.
 
 ## Props
 
-| Prop                          | Type                                                            | What it does                                                                                                |
-| ----------------------------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `type`                        | `"date" \| "datetime" \| "time" \| "week" \| "month" \| "year"` | The kind of value.                                                                                          |
-| `range`                       | `boolean`                                                       | A `[from, to]` pair instead of one value.                                                                   |
-| `value`                       | `string` or `[string, string]`                                  | The value, in the browser's format for the type; `""` is empty.                                             |
-| `onChange`                    | `(value) => void`                                               | Called with the new value; not called when the value stays the same.                                        |
-| `min`, `max`                  | `string`                                                        | Limits in the type's format. A limit in another format is ignored, with a console error outside production. |
-| `step`                        | `number`                                                        | Seconds between times, for `datetime` and `time`. Counted from the time of day of `min`, else from 00:00.   |
-| `presets`                     | `{ label, value }[]`                                            | Buttons under the calendar; `value` may be a function. Not for `time`.                                      |
-| `labels`                      | `Partial<PickerLabels>`                                         | Replaces the picker's own words, key by key.                                                                |
-| `disabled`                    | `boolean`                                                       | Disables the box or trigger and the popup button.                                                           |
-| `presentation`                | `"popover" \| "dialog" \| "auto"`                               | How the calendar opens; `auto` is a dialog under 768 px wide.                                               |
-| `popoverProps`, `dialogProps` | object                                                          | Open state (`open`, `defaultOpen`, `onOpenChange`) and the content props of the popover or dialog.          |
-| `calendarProps`               | object                                                          | Props passed to react-day-picker, such as `locale` and `disabled`.                                          |
+| Prop                          | Type                                                            | What it does                                                                                              |
+| ----------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `type`                        | `"date" \| "datetime" \| "time" \| "week" \| "month" \| "year"` | The kind of value.                                                                                        |
+| `range`                       | `boolean`                                                       | A `[from, to]` pair instead of one value.                                                                 |
+| `value`                       | `string` or `[string, string]`                                  | The value, in the browser's format for the type; `""` is empty.                                           |
+| `onChange`                    | `(value) => void`                                               | Called with the new value; not called when the value stays the same.                                      |
+| `min`, `max`                  | `string`                                                        | Limits in the type's format. A limit in another format is ignored.                                        |
+| `step`                        | `number`                                                        | Seconds between times, for `datetime` and `time`. Counted from the time of day of `min`, else from 00:00. |
+| `presets`                     | `{ label, value }[]`                                            | Buttons under the calendar; `value` may be a function. Not for `time`.                                    |
+| `labels`                      | `Partial<PickerLabels>`                                         | Replaces the picker's own words, key by key.                                                              |
+| `disabled`                    | `boolean`                                                       | Disables the box or trigger and the popup button.                                                         |
+| `presentation`                | `"popover" \| "dialog" \| "auto"`                               | How the calendar opens; `auto` is a dialog under 768 px wide.                                             |
+| `popoverProps`, `dialogProps` | object                                                          | Open state (`open`, `defaultOpen`, `onOpenChange`) and the content props of the popover or dialog.        |
+| `calendarProps`               | object                                                          | Props passed to react-day-picker, such as `locale` and `disabled`.                                        |
 
 Other attributes (`id`, `aria-label`, `aria-labelledby`, `aria-describedby`, `aria-invalid`, `className`) go to the box or the trigger, so a `<label htmlFor>` of your form names the picker.
 
