@@ -4,13 +4,15 @@ import {
   DocsDescription,
   DocsPage,
   DocsTitle,
+  MarkdownCopyButton,
+  ViewOptionsPopover,
 } from 'fumadocs-ui/layouts/notebook/page';
 import { notFound } from 'next/navigation';
 import { getMDXComponents } from '@/components/mdx';
 import { DocsBreadcrumb, NoBreadcrumb } from '@/components/docs-breadcrumb';
 import type { Metadata } from 'next';
 import { createRelativeLink } from 'fumadocs-ui/mdx';
-import { siteName } from '@/lib/shared';
+import { getPageMarkdownUrl, gitConfig, siteName } from '@/lib/shared';
 import { findSectionName, footerNeighbours } from '@/lib/page-tree-utils';
 
 export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
@@ -19,6 +21,7 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
   if (!page) notFound();
 
   const MDX = page.data.body;
+  const markdownUrl = getPageMarkdownUrl(page).url;
   const section = findSectionName(source.getPageTree(), page.url);
 
   return (
@@ -40,6 +43,23 @@ export default async function Page(props: PageProps<'/docs/[[...slug]]'>) {
           publishes that edge as --fd-docs-row-3. */}
       <div className="docs-page-bar sticky top-(--fd-docs-row-3) z-10 flex flex-row items-center justify-between gap-4 bg-fd-background py-2">
         <DocsBreadcrumb />
+        <div
+          className="st-page-actions inline-flex h-8 shrink-0 items-stretch overflow-hidden rounded-md border bg-fd-secondary [&>*]:h-full [&>*]:rounded-none [&>*]:border-0"
+          role="group"
+          aria-label="Page actions"
+        >
+          <MarkdownCopyButton markdownUrl={markdownUrl} className="px-2.5">
+            Copy page
+          </MarkdownCopyButton>
+          <ViewOptionsPopover
+            markdownUrl={markdownUrl}
+            githubUrl={`https://github.com/${gitConfig.user}/${gitConfig.repo}/blob/${gitConfig.branch}/apps/shadcn-date-picker-docs/content/docs/${page.path}`}
+            className="gap-0 border-l px-2"
+            aria-label="Page options"
+          >
+            <span className="sr-only">Page options</span>
+          </ViewOptionsPopover>
+        </div>
       </div>
       {section && (
         <p className="docs-eyebrow">

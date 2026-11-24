@@ -1,6 +1,7 @@
-import { loader } from 'fumadocs-core/source';
+import { llms, loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
-import { docsRoute } from './shared';
+import { docsContentRoute, docsRoute } from './shared';
+import { toPlainMarkdown } from './llms';
 import { defineDocs } from 'fumadocs-mdx/macro';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 import type * as PageTree from 'fumadocs-core/page-tree';
@@ -21,6 +22,9 @@ const docs = defineDocs({
   dir: 'content/docs',
   docs: {
     schema: docsPageSchema,
+    postprocess: {
+      includeProcessedMarkdown: true,
+    },
   },
   meta: {
     schema: metaSchema,
@@ -146,3 +150,9 @@ function defined<T extends object>(value: T): T {
     Object.entries(value).filter(([, v]) => v !== undefined),
   ) as T;
 }
+
+export const docsLlms = llms(source, {
+  renderPage: async (page) => `# ${page.data.title} (${page.url})
+
+${toPlainMarkdown(await page.data.getText('processed'))}`,
+});
