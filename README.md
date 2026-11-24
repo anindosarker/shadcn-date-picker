@@ -59,6 +59,8 @@ https://date-picker.shadcn-table.com/
 
 The Storybook of each base: https://date-picker.shadcn-table.com/storybook/
 
+`pnpm preview` at the repository root builds the docs site for production and serves it on http://localhost:5331.
+
 ## What it does not do
 
 - It shows no error message of its own and does not set `aria-invalid`. Your form does that; the picker passes `aria-invalid`, `aria-describedby`, `disabled`, `required`, `min`, `max` and `step` to the browser input.

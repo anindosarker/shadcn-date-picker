@@ -5,6 +5,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "preview": "pnpm --filter shadcn-date-picker-docs preview",
     "lint": "turbo run lint --filter=shadcn-date-picker && prettier --check . \"!pnpm-lock.yaml\" \"!packages/shadcn-date-picker/registry/*/components/ui\" \"!packages/shadcn-date-picker/registry/*/hooks\"",
     "typecheck": "turbo run typecheck",
     "test": "pnpm --filter shadcn-date-picker test",

@@ -5,6 +5,7 @@ const withMDX = createMDX({ agentRules: false });
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  distDir: process.env.NEXT_DIST_DIR ?? '.next',
   // Security response headers on every path, the root included (D57). No
   // Content-Security-Policy: it needs nonces for Next's inline scripts
   // and fonts. Vercel sets Strict-Transport-Security itself.

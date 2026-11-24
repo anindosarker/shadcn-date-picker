@@ -8,6 +8,7 @@
 
 # test & build
 /.next/
+/.next-*/
 *.tsbuildinfo
 
 # others
