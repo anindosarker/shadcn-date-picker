@@ -1,6 +1,10 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": ["tools/**", "packages/shadcn-date-picker/registry/**"],
+  "globalDependencies": [
+    "tools/**",
+    "packages/shadcn-date-picker/registry/**",
+    "packages/shadcn-date-picker/package.json"
+  ],
   "tasks": {
     "build": {
       "outputs": [".next/**", "!.next/cache/**"]

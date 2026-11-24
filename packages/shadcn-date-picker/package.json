@@ -7,7 +7,7 @@
   "repository": "github:anindosarker/shadcn-date-picker",
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint . && cd ../.. && eslint -c packages/shadcn-date-picker/eslint.config.mjs tools",
     "typecheck": "tsc -p tsconfig.baseui.json && tsc -p tsconfig.radix.json && tsc -p tsconfig.aria.json && tsc -p tsconfig.stories.json",
     "registry:build": "node ../../tools/registry-build.mjs",
     "registry:check": "node ../../tools/registry-build.mjs --check",
