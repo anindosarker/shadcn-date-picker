@@ -48,9 +48,9 @@ export function HomePage() {
                 Get started
                 <ArrowRightIcon aria-hidden="true" className="size-4" />
               </IntentLink>
-              <IntentLink href="/storybook/" className="v4-link">
+              <a href="/storybook/" className="v4-link">
                 Storybook
-              </IntentLink>
+              </a>
             </div>
           </div>
         </section>
