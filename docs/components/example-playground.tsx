@@ -199,7 +199,7 @@ export const ExamplePlayground = ({ children, name, variants }: Props) => {
           data-slot="preview"
           className={cn('min-w-0 p-4', mode === 'code' && 'hidden')}
         >
-          {children}
+          <div className="w-fit max-w-full">{children}</div>
         </div>
         {showCode && (
           <div

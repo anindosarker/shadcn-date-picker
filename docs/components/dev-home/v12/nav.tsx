@@ -37,7 +37,7 @@ export function Nav({ baseSwitch = false }: { baseSwitch?: boolean }) {
           </IntentLink>
           <a
             href={`${GITHUB_URL}/releases`}
-            className="shrink-0 font-mono text-xs text-(--dh-ink-muted) transition-colors hover:text-(--dh-accent)"
+            className="shrink-0 font-mono text-xs text-(--dh-ink-muted) transition-colors hover:text-(--dh-accent) max-sm:hidden"
           >
             v{LIBRARY_VERSION}
           </a>
