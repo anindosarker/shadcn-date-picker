@@ -6,7 +6,6 @@ export default defineConfig([
   // Parts and the hook are what `shadcn add` writes for each style, the
   // generated folder what pnpm registry:build writes; never edited.
   globalIgnores([
-    "docs",
     "storybook-static",
     "registry/*/components/ui",
     "registry/*/hooks",
