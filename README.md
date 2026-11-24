@@ -7,19 +7,19 @@ A date picker for shadcn/ui. It is one component, `DatePicker`, with a `type` (`
 Base UI (shadcn style `base-nova`):
 
 ```bash
-pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-base#v0.1.0
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-base#v0.1.1
 ```
 
 Radix UI (shadcn style `radix-nova`):
 
 ```bash
-pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-radix#v0.1.0
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-radix#v0.1.1
 ```
 
 React Aria (shadcn style `aria-nova`):
 
 ```bash
-pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-aria#v0.1.0
+pnpm dlx shadcn@latest add anindosarker/shadcn-date-picker/date-picker-aria#v0.1.1
 ```
 
 The files land in `components/date-picker/`. The CLI adds the shadcn parts the picker uses (button, popover, dialog and others) from your own style. On Base UI and Radix UI the calendar is your style's calendar part too; on React Aria the picker brings its own day calendar, built on react-day-picker with the classes of shadcn's nova calendar.
@@ -67,6 +67,11 @@ https://date-picker.shadcn-table.com/
 The code is the owner-approved date picker of the shadcn-table project (demo version 9.3.6). The three bases have the same files.
 
 ## Differences between the bases
+
+Base UI:
+
+- In the day calendar, arrow keys move the highlight but not keyboard focus, so Enter picks the day that had focus before. This is shadcn's stock `base-nova` calendar part ([shadcn-ui/ui#9401](https://github.com/shadcn-ui/ui/issues/9401)).
+- Until it is fixed there, add `ref={ref}` to the day `Button` in your `components/ui/calendar.tsx`.
 
 Radix UI:
 
