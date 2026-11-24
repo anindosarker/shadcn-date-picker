@@ -5,6 +5,7 @@ const eslintConfig = defineConfig([
   ...nextVitals,
   globalIgnores([
     '.next/**',
+    '.next-*/**',
     'next-env.d.ts',
     '.source/**',
     'components/ui-radix/**',
