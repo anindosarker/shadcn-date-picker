@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * Copies each base's picker tree (registry/<base>/components and hooks of
- * packages/shadcn-date-picker) into the app's registry/<base>/ (gitignored),
- * with its `@/components/` and `@/hooks/` imports pointed at the copy by the
+ * Copies each base's picker tree (registry/<base>/components/date-picker and
+ * hooks of packages/shadcn-date-picker) into the app's registry/<base>/
+ * (gitignored). Its `@/components/ui/` imports point at the app's
+ * components/ui-<base>/, the table docs' parts that follow the chosen style;
+ * its other `@/components/` and `@/hooks/` imports point at the copy by the
  * same rewrite the demos get (lib/example-variants.mjs). Stale files are
  * removed. Never writes under the package's registry/.
  *
@@ -17,7 +19,7 @@ import * as docsBases from './bases.mjs';
 import { rewriteImports } from './example-variants.mjs';
 
 const APP = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const FOLDERS = ['components', 'hooks'];
+const FOLDERS = ['components/date-picker', 'hooks'];
 
 const describe = (list) =>
   `BASES ${JSON.stringify(list.BASES)}, DEFAULT_BASE ${JSON.stringify(list.DEFAULT_BASE)}`;
@@ -57,7 +59,10 @@ for (const base of docsBases.BASES) {
       const source = await fs.readFile(path.join(from, rel), 'utf8');
       const target = path.join(out, folder, rel);
       await fs.mkdir(path.dirname(target), { recursive: true });
-      const text = rewriteImports(source, base);
+      const text = rewriteImports(source, base).replaceAll(
+        `@/registry/${base}/components/ui/`,
+        `@/components/ui-${base}/`,
+      );
       const current = await fs.readFile(target, 'utf8').catch(() => null);
       if (current !== text) await fs.writeFile(target, text);
       written.add(path.join(folder, rel).split(path.sep).join('/'));
