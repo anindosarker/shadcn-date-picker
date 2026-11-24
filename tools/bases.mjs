@@ -1,4 +1,4 @@
-// One tree per shadcn base, registry/<base>; `@/` points at one of them
+// One tree per shadcn base, packages/shadcn-date-picker/registry/<base>; `@/` points at one of them
 // (DP_BASE, unset means DEFAULT_BASE).
 import fs from "node:fs"
 import path from "node:path"
@@ -8,6 +8,7 @@ export const ROOT = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   ".."
 )
+export const PACKAGE = path.join(ROOT, "packages/shadcn-date-picker")
 export const BASES = Object.freeze(["base", "radix", "aria"])
 export const DEFAULT_BASE = "base"
 
@@ -18,7 +19,7 @@ export const readyBases = () =>
   BASES.filter((base) =>
     fs.existsSync(
       path.join(
-        ROOT,
+        PACKAGE,
         "registry",
         base,
         "components/date-picker/date-picker.tsx"

@@ -36,7 +36,7 @@ export const ExampleSnippet = async ({ name }: Props) => {
       source: file.source,
       lang: LANGS[path.extname(file.path)] ?? 'text',
     })),
-    githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}/blob/${gitConfig.branch}/docs/demos/${name}.tsx`,
+    githubUrl: `https://github.com/${gitConfig.user}/${gitConfig.repo}/blob/${gitConfig.branch}/apps/shadcn-date-picker-docs/demos/${name}.tsx`,
   };
 
   const variants = Object.fromEntries(

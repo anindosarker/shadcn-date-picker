@@ -4,7 +4,7 @@ import { playwright } from "@vitest/browser-playwright"
 import { defineConfig, mergeConfig } from "vitest/config"
 import type { BrowserCommand } from "vitest/node"
 import viteConfig, { DP_BASE } from "./vite.config"
-import { ROOT } from "./tools/bases.mjs"
+import { PACKAGE } from "../../tools/bases.mjs"
 
 // A play that moved the real pointer leaves it over the next story's canvas.
 const resetPointer: BrowserCommand<[]> = async ({ page }) => {
@@ -20,7 +20,7 @@ export default mergeConfig(
           extends: true,
           plugins: [
             storybookTest({
-              configDir: path.join(ROOT, ".storybook"),
+              configDir: path.join(PACKAGE, ".storybook"),
               storybookScript: "storybook dev -p 5359 --ci",
               storybookUrl: "http://localhost:5359",
             }),
