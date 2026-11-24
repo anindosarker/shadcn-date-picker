@@ -1,5 +1,5 @@
 # Written by pnpm registry:build, and the stock shadcn style it reads; never edited.
-registry/*/generated
-registry/styles
-# The docs app keeps the table docs' formatting (docs/.prettierrc).
-docs
+packages/shadcn-date-picker/registry/*/generated
+packages/shadcn-date-picker/registry/styles
+# The docs app keeps the table docs' formatting (apps/shadcn-date-picker-docs/.prettierrc).
+apps/shadcn-date-picker-docs

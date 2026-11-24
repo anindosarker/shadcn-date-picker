@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Copies each base's picker tree (registry/<base>/components and hooks of the
- * repository) into docs/registry/<base>/ (gitignored), with its `@/components/`
- * and `@/hooks/` imports pointed at the copy by the same rewrite the demos get
- * (lib/example-variants.mjs). Stale files are removed. Never writes under the
- * repository's registry/.
+ * Copies each base's picker tree (registry/<base>/components and hooks of
+ * packages/shadcn-date-picker) into the app's registry/<base>/ (gitignored),
+ * with its `@/components/` and `@/hooks/` imports pointed at the copy by the
+ * same rewrite the demos get (lib/example-variants.mjs). Stale files are
+ * removed. Never writes under the package's registry/.
  *
  * Runs first in `build`, `predev` and `types:check`, and fails when the base
  * list of lib/bases.mjs differs from tools/bases.mjs.
@@ -12,12 +12,11 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import * as repoBases from '../../tools/bases.mjs';
+import * as repoBases from '../../../tools/bases.mjs';
 import * as docsBases from './bases.mjs';
 import { rewriteImports } from './example-variants.mjs';
 
 const APP = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const REPO = path.resolve(APP, '..');
 const FOLDERS = ['components', 'hooks'];
 
 const describe = (list) =>
@@ -53,7 +52,7 @@ for (const base of docsBases.BASES) {
   let count = 0;
   const written = new Set();
   for (const folder of FOLDERS) {
-    const from = path.join(REPO, 'registry', base, folder);
+    const from = path.join(repoBases.PACKAGE, 'registry', base, folder);
     for (const rel of await listFiles(from)) {
       const source = await fs.readFile(path.join(from, rel), 'utf8');
       const target = path.join(out, folder, rel);

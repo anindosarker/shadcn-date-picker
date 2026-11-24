@@ -6,6 +6,6 @@
   "trailingComma": "es5",
   "printWidth": 80,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindStylesheet": "registry/base/index.css",
+  "tailwindStylesheet": "packages/shadcn-date-picker/registry/base/index.css",
   "tailwindFunctions": ["cn", "cva"]
 }
