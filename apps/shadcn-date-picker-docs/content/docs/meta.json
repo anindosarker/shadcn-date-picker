@@ -1,16 +1,8 @@
 {
   "pages": [
-    "---Get started---",
-    "install",
-    "---Pickers---",
-    "date",
-    "date-time",
-    "time",
-    "week",
-    "month",
-    "year",
-    "ranges",
-    "---Reference---",
-    "props"
+    "(get-started)",
+    "(pickers)",
+    "(reference)",
+    "external:[Changelog](https://github.com/anindosarker/shadcn-date-picker/releases)"
   ]
 }

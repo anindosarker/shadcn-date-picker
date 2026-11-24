@@ -1,0 +1,6 @@
+{
+  "title": "Pickers",
+  "root": true,
+  "defaultOpen": true,
+  "pages": ["date", "date-time", "time", "week", "month", "year", "ranges"]
+}
