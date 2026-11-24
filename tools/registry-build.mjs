@@ -11,12 +11,12 @@ import { pathToFileURL } from "node:url"
 import * as prettier from "prettier"
 import { registrySchema } from "shadcn/schema"
 import { createStyleMap, transformStyle } from "shadcn/utils"
-import { BASES, ROOT, readyBases } from "./bases.mjs"
+import { BASES, PACKAGE, ROOT, readyBases } from "./bases.mjs"
 
 const CHECK = process.argv.includes("--check")
 const PICKER = "components/date-picker"
 const GENERATED = "generated"
-const STYLE = path.join(ROOT, "registry/styles/style-nova.css")
+const STYLE = path.join(PACKAGE, "registry/styles/style-nova.css")
 
 const walk = (dir) =>
   fs.existsSync(dir)
@@ -69,7 +69,7 @@ const fail = (message) => {
 
 const ready = readyBases()
 for (const base of BASES) {
-  const treeDir = path.join(ROOT, "registry", base)
+  const treeDir = path.join(PACKAGE, "registry", base)
   const sourceDir = path.join(treeDir, PICKER)
   const generatedDir = path.join(treeDir, GENERATED, PICKER)
   const isReady = ready.includes(base)
