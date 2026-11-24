@@ -3,6 +3,11 @@
 import { useTheme } from 'next-themes';
 import { MoonIcon, SunIcon } from 'lucide-react';
 import type { ThemeSwitchProps } from 'fumadocs-ui/layouts/shared/slots/theme-switch';
+import {
+  ThemeCustomizer,
+  ThemeCustomizerTrigger,
+} from '@/components/theme-customizer';
+import { Sheet, SheetTrigger } from '@/components/ui-radix/sheet';
 
 /**
  * `slots.themeSwitch` for the fumadocs layouts: one pill with the palette
@@ -11,9 +16,15 @@ import type { ThemeSwitchProps } from 'fumadocs-ui/layouts/shared/slots/theme-sw
  */
 export function ThemeControls(_props: ThemeSwitchProps) {
   return (
+    <Sheet>
       <div className="inline-flex items-center gap-0.5 rounded-full border p-1">
+        <SheetTrigger asChild>
+          <ThemeCustomizerTrigger />
+        </SheetTrigger>
         <ModeToggle />
       </div>
+      <ThemeCustomizer />
+    </Sheet>
   );
 }
 

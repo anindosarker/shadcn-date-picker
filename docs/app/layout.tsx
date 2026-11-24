@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from 'next';
 import { RootProvider } from 'fumadocs-ui/provider/next';
 import { TooltipProvider } from '@/components/ui-radix/tooltip';
+import { DesignSystemProvider } from '@/components/design-system-provider';
 import { SearchDialog } from '@/components/search-dialog';
 import './global.css';
-import './theme.css';
 import { Inter } from 'next/font/google';
 import { archivo } from '@/lib/fonts';
+import { designSystemScript } from '@/lib/design-system/config';
+import { designSystemFontVariables } from '@/lib/design-system/fonts';
 import { SIDEBAR_STATE_SCRIPT } from '@/lib/sidebar-state';
 import { siteDescription, siteName, siteUrl } from '@/lib/shared';
 
@@ -40,14 +42,11 @@ export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${archivo.variable} style-nova`}
-      data-design-system=""
-      data-menu-color="default"
-      data-menu-accent="subtle"
+      className={`${inter.variable} ${archivo.variable} ${designSystemFontVariables}`}
       suppressHydrationWarning
     >
       <head>
-        <link rel="stylesheet" href="/styles/style-nova.css" />
+        <script dangerouslySetInnerHTML={{ __html: designSystemScript }} />
         {/* Docs sidebar width and collapsed state from localStorage before
             the first paint (components/sidebar-resize-handle.tsx,
             components/sidebar-collapse-button.tsx), so the layout does not
@@ -71,7 +70,9 @@ export default function Layout({ children }: LayoutProps<'/'>) {
           theme={{ defaultTheme: 'dark', enableSystem: false }}
           search={{ SearchDialog }}
         >
-          <TooltipProvider skipDelayDuration={0}>{children}</TooltipProvider>
+          <TooltipProvider skipDelayDuration={0}>
+            <DesignSystemProvider>{children}</DesignSystemProvider>
+          </TooltipProvider>
         </RootProvider>
       </body>
     </html>
