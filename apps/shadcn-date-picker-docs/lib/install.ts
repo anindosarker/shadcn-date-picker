@@ -49,3 +49,11 @@ export const libraryAddCommand = (
   base: Base = defaultBase,
   pm: PackageManager = 'pnpm',
 ) => addCommand(base, pm);
+
+export const installCommandMarkdown = (): string =>
+  bases
+    .map(
+      (base) =>
+        `${baseLabels[base]}:\n\n\`\`\`bash\n${libraryAddCommand(base)}\n\`\`\``,
+    )
+    .join('\n\n');
