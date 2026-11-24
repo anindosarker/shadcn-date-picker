@@ -2,6 +2,8 @@ import { llms, loader } from 'fumadocs-core/source';
 import { lucideIconsPlugin } from 'fumadocs-core/source/lucide-icons';
 import { docsContentRoute, docsRoute } from './shared';
 import { toPlainMarkdown } from './llms';
+import { installCommandMarkdown } from './install';
+import { renderPlaceholder } from 'fumadocs-core/mdx-plugins/remark-llms.runtime';
 import { defineDocs } from 'fumadocs-mdx/macro';
 import { metaSchema, pageSchema } from 'fumadocs-core/source/schema';
 import type * as PageTree from 'fumadocs-core/page-tree';
@@ -23,7 +25,7 @@ const docs = defineDocs({
   docs: {
     schema: docsPageSchema,
     postprocess: {
-      includeProcessedMarkdown: true,
+      includeProcessedMarkdown: { mdxAsPlaceholder: ['InstallCommand'] },
     },
   },
   meta: {
@@ -154,5 +156,9 @@ function defined<T extends object>(value: T): T {
 export const docsLlms = llms(source, {
   renderPage: async (page) => `# ${page.data.title} (${page.url})
 
-${toPlainMarkdown(await page.data.getText('processed'))}`,
+${toPlainMarkdown(
+  await renderPlaceholder(await page.data.getText('processed'), {
+    InstallCommand: installCommandMarkdown,
+  }),
+)}`,
 });
