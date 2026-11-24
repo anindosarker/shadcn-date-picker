@@ -8,6 +8,8 @@ const eslintConfig = defineConfig([
     'next-env.d.ts',
     '.source/**',
     'components/ui-radix/**',
+    'components/ui-base/**',
+    'components/ui-aria/**',
     'registry/**',
     'demos/.*/**',
     'lib/bases.d.mts',
