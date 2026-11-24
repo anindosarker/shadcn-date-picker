@@ -3,6 +3,7 @@ import { IntentLink } from '@/components/dev-home/shared/intent-link';
 import { InstallCommand } from '@/components/dev-home/shared/install-command';
 import { archivo } from '@/components/dev-home/v4/font';
 import { ExampleVariant } from '@/components/example-variant';
+import { Footer } from './footer';
 import { Nav } from './nav';
 import '@/components/dev-home/v4/v4.css';
 import '@/components/dev-home/v5/v5.css';
@@ -55,6 +56,7 @@ export function HomePage() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }
