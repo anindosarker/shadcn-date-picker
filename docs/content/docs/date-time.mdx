@@ -1,0 +1,22 @@
+---
+title: 'Date and time'
+description: 'Pick a day and a time of day.'
+full: true
+---
+
+The value is the browser's own date and time string, such as `2026-11-21T09:30`. `""` is empty.
+
+<ExampleSnippet name="date-time" />
+
+## Props
+
+| Prop | Type | What it does |
+| --- | --- | --- |
+| `step` | `number` | Seconds between times. Counted from the time of day of `min`, else from 00:00. |
+| `min`, `max` | `string` | Limits in the type's format. A limit in another format is ignored. |
+| `presets` | `{ label, value }[]` | Buttons under the calendar; `value` may be a function. |
+| `presentation` | `"popover" \| "dialog" \| "auto"` | How the calendar opens; `auto` is a dialog under 768 px wide. |
+| `popoverProps`, `dialogProps` | object | Open state (`open`, `defaultOpen`, `onOpenChange`) and the content props of the popover or dialog. |
+| `calendarProps` | object | Props passed to react-day-picker, such as `locale` and `disabled`. |
+
+More options (limits, presets, labels, the dialog) are in the <StorybookLink>Storybook</StorybookLink>.

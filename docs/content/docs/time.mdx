@@ -1,0 +1,21 @@
+---
+title: 'Time'
+description: 'Pick a time of day.'
+full: true
+---
+
+The value is the browser's own time string, such as `09:30`. `""` is empty.
+
+<ExampleSnippet name="time" />
+
+## Props
+
+| Prop | Type | What it does |
+| --- | --- | --- |
+| `step` | `number` | Seconds between times. Counted from the time of day of `min`, else from 00:00. |
+| `min`, `max` | `string` | Limits in the type's format. A limit in another format is ignored. |
+| `popoverProps` | object | Open state (`open`, `defaultOpen`, `onOpenChange`) and the content props of the popover. |
+
+A time picker takes no `presets`, `presentation`, `dialogProps` or `calendarProps`.
+
+More options (limits, presets, labels, the dialog) are in the <StorybookLink>Storybook</StorybookLink>.
