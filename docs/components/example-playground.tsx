@@ -163,7 +163,7 @@ export const ExamplePlayground = ({ children, name, variants }: Props) => {
                 aria-label="Open in GitHub"
               >
                 <GitHubIcon />
-                GitHub
+                <span className="max-sm:sr-only">GitHub</span>
               </a>
             </Button>
           </div>
